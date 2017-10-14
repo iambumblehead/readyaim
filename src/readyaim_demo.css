@@ -1,0 +1,62 @@
+/* Filename: readyaim_demo.css  
+ * Timestamp: 2017.10.05-20:44:29 (last modified)
+ * Author(s): bumblehead <chris@bumblehead.com>  
+ */
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+html,
+body {
+    background-color:#000;
+    font-size:0;
+    margin:0;
+    padding:0;
+    border:0;
+    width:100%;
+    height:100%;
+    cursor:move; 
+}
+body > span,
+body > img {
+    position:absolute;
+    pointer-events:none;
+    padding:20px;
+    font-family:arial;
+    font-weight:bold; 
+    font-size:22px;
+    color:#eff;
+    opacity:1;
+    transition-property: opacity;
+    transition-duration: .3s;
+    transition-delay: 1s; 
+    transition-timing-function: ease-out;
+}
+body > span {
+    top:0;
+    left:0;
+}
+body > img {
+    right:0;
+    bottom:0;
+    padding:0;
+}
+body:focus > span,
+body:focus > img {
+    opacity:0;
+}
+canvas.left,
+canvas.right {
+    position:absolute;
+    pointer-events:none;
+    top:0;
+}
+canvas.left {
+    left:0;
+}
+canvas.right {
+    right:0;
+}

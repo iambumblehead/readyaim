@@ -1,0 +1,7 @@
+node_modules
+README.html
+.tern-port
+npm-debug.log
+.scrounge
+test/src
+package-lock.json
