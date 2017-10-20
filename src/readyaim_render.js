@@ -1,5 +1,5 @@
 // Filename: readyaim_render.js  
-// Timestamp: 2017.10.20-00:07:21 (last modified)
+// Timestamp: 2017.10.20-01:07:44 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>  
 
 const readyaim_reticle = require('./readyaim_reticle'),
@@ -44,12 +44,14 @@ module.exports = (o => {
         (mesh.visible || !reticle.ignoreInvisible) &&
         state.frustum.intersectsObject(mesh)
     ));
+
+    return state;
   };
 
   o.gazeOut = (state, mesh, reticle) => {
     mesh.userData.hitTime = 0;
 
-    state.fuse = readyaim_fuse.out(state.fuse, state.fuse);
+    state.fuse = readyaim_fuse.out(state.fuse);
     reticle.hit = false;
     state.reticle = readyaim_reticle.setDepthAndScale(state.reticle, state);
 
@@ -109,72 +111,59 @@ module.exports = (o => {
   };
 
   o.gazeClick = (state, mesh, fuse) => {
-    let meshData = o.gettargetdata(state, mesh),
-        clickCancel = meshData.fuse.clickCancel || fuse.clickCancel;
+    let meshData = o.gettargetdata(state, mesh);
 
-    if (clickCancel) {
+    if (meshData.fuse.clickCancel || fuse.clickCancel) {
       // Reset the clock
       mesh.userData.hitTime = state.clock.getElapsedTime();
       // Force gaze to end...this might be to assumptions
       state.fuse = readyaim_fuse.updateactive(fuse, fuse, fuse.duration);
-      // fuse.update(fuse.duration);
     }
 
     // Does object have an action assigned to it?
-    // console.log('ontargetgazeclick');
     state = readyaim_events.publish(state, readyaim_events.GAZECLICK, mesh);
+  };
 
-    // o.ontargetgazeclick(state, mesh);
+  o.getintersecting = (state, reticle) => {
+    let {
+      raycaster,
+      collisionList
+    } = state;
+
+    return raycaster.intersectObjects(collisionList).find(({ object }) => (
+      o.isreticletarget(state, object, reticle)
+    ));
+  };
+
+  o.getintersectingobject = (state, reticle) => {
+    let intersecting = o.getintersecting(state, reticle);
+
+    return intersecting && intersecting.object;
   };
 
   o.detectHit = (state, reticle) => {
     state.raycaster.setFromCamera(state.vector, state.camera);
 
-    let intersects = state.raycaster.intersectObjects(state.collisionList),
-        intersectsCount = intersects.length;
+    let targetmesh = o.getintersectingobject(state, reticle);
 
-    // Detect
-    if (intersectsCount) {
-      let newMesh,
-          intersect;
-
-      // Check if what we are hitting can be used
-      intersect = intersects.find(({ object }) => (
-        o.isreticletarget(state, object, reticle)
-      ));
-      // console.log('intersect', intersect);
-
-      newMesh = intersect && intersect.object;
-
-      // There is no valid object
-      if (!newMesh) return;
-
-      // Is it a new object?
-      if (state.INTERSECTED !== newMesh) {
-        // If old INTERSECTED i.e. not null reset and gazeout 
+    if (targetmesh) {
+      if (state.INTERSECTED !== targetmesh) {
         if (state.INTERSECTED) {
           o.gazeOut(state, state.INTERSECTED, state.reticle);
         }
 
         // Updated INTERSECTED with new object
-        state.INTERSECTED = newMesh;
-        // Is the object gazeable?
-        // if (INTERSECTED.gazeable) {
-        // Yes
+        state.INTERSECTED = targetmesh;
+
         o.gazeOver(state, state.INTERSECTED, state.reticle, state.fuse);
-        // }
       } else {
-        // Ok it looks like we are in love
         o.gazeLong(state, state.INTERSECTED, state.reticle, state.fuse);
       }
     } else {
-      // Is the object gazeable?
-      // if (INTERSECTED.gazeable) {
       if (state.INTERSECTED) {
-        // GAZE OUT
         o.gazeOut(state, state.INTERSECTED, state.reticle);
       }
-      // }
+
       state.INTERSECTED = null;
     }
 
@@ -184,13 +173,8 @@ module.exports = (o => {
   o.update = state => {
     const delta = state.clock.getDelta();
 
-    o.detectHit(state, state.reticle);
-
-    // Proximity
-    if (state.proximity) {
-      o.proximity(state, state.reticle);
-    }
-    // Animation
+    state = o.detectHit(state, state.reticle);
+    state = state.proximity ? o.proximity(state, state.reticle) : state;
     state.reticle = readyaim_reticle.update(state.reticle, delta);
 
     return state;

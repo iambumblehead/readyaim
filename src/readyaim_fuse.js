@@ -1,5 +1,5 @@
 // Filename: readyaim_fuse.js  
-// Timestamp: 2017.10.20-00:05:27 (last modified)
+// Timestamp: 2017.10.20-01:01:38 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 //
 // multiple fuse, one for each object
@@ -95,8 +95,8 @@ module.exports = (o => {
     fuseopts.mesh.visibile = false,
     fuseopts);
 
-  o.out = (opts, fuseopts) =>
-    o.updateactive(opts, o.hide(Object.assign(fuseopts, {
+  o.out = fuseopts =>
+    o.update(o.hide(Object.assign(fuseopts, {
       active : false,
       timeDone : false
     })), 0);
