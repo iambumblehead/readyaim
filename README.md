@@ -4,17 +4,19 @@ readyaim
 
 readyaim provides an aiming mechanism using a THREE.js camera.
 
-### acknowledgement
+readyaim reconstructs parts of the [reticulum][1] library and if you arrived here searching for vr 'reticle' support, you probably want to use [reticulum][1]. This library reconstructs much of the [reticulum][1] library and makes a few changes.
 
-This library reconstructs parts of the [reticulum][1] library.
+reticulum works well with one long-lived canvas that fills the document. It stores stateful data on 'this' and adds listers to the full document when its constructor is called. 
+
+readyaim operates on specific canvas element(s), and allows canvas states to be added or removed and adds listers to the document once only, delegating to specific canvas states.
 
 <!--
-does not assume document.body as target for all events, events can may target specific element.
-
-does not mutate mesh objects it is given
-
-always delegates click and touch events --callee may ignore these events.
+throw errors where needed
 -->
+
+
+_example coming_
+
 
 [0]: http://www.bumblehead.com "bumblehead"
 [1]: https://github.com/skezo/Reticulum "reticulum"

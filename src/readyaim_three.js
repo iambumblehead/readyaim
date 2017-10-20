@@ -1,11 +1,10 @@
 // Filename: readyaim_three.js  
-// Timestamp: 2017.10.08-04:20:12 (last modified)
+// Timestamp: 2017.10.20-00:02:42 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>  
 
 const THREE = require('three');
 
 module.exports = (o => {
-
   o.iscamera = camera =>
     camera instanceof THREE.Camera;
 
@@ -18,10 +17,14 @@ module.exports = (o => {
 
   o.getimgsprite = cfg => new THREE.Sprite(
     new THREE.SpriteMaterial({
-      color: cfg.crosscolor || 0xffffff,
-      map: o.getimgtexture( cfg.crossimgsrc )
+      color : cfg.color || 0xffffff,
+      map : o.getimgtexture(cfg.imgsrc)
     }));
 
+  o.getscaleimgsprite = (cfg, sprite) => (
+    sprite = o.getimgsprite(cfg),
+    sprite.scale.set(cfg.scale[0], cfg.scale[1], 1),
+    sprite);
+
   return o;
-  
 })({});

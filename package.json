@@ -9,21 +9,33 @@
     "type": "git",
     "url": "https://github.com/iambumblehead/readyaim.git"
   },
+  "scripts": {
+    "start": "node build.js && node express.js",
+    "lint": "eslint 'src/*.js'"
+  },  
+  "pre-commit": {
+    "silent": true,
+    "run": [
+      "lint"
+    ]
+  },
   "dependencies": {
     "castas": "0.0.3",
     "three": "^0.87.1",
     "three-text2d": "^0.3.4",
-    "evdelagate": "github:iambumblehead/evdelegate.git"
+    "evdelegate": "^0.0.1",
+    "touchboom": "^0.2.43"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "scroungejs": "^1.3.0",
     "array-flatten": "^2.1.1",
     "express": "~4.13.x",
-    "touchboom": "^0.2.43"
-  },
-  "scripts": {
-    "start": "node build.js && node express.js"
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "babel-eslint": "^7.2.3",
+    "pre-commit": "^1.2.2",
+    "eslint-plugin-import": "^2.7.0"
   },
   "keywords": [
     "crosshair",

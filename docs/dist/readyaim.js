@@ -24726,56 +24726,9 @@
   exports.CanvasRenderer = CanvasRenderer;
   Object.defineProperty(exports, '__esModule', { value: true });
 }));
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.castas_003_castas = f()}})(function(){var define,module,exports;module={exports:(exports={})};
-// Filename: castas.js  
-// Timestamp: 2017.04.23-14:09:16 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>
-
-const castas = module.exports = (o => {
-
-  o.bool = (val, defval) => {
-    if (String(val) === 'true') defval = true;else if (String(val) === 'false') defval = false;
-
-    return Boolean(defval);
-  };
-
-  o.arr = (val, defval) => {
-    if (Array.isArray(val)) defval = val;else if (typeof val === 'string') defval = val.split(',');
-
-    return defval;
-  };
-
-  o.num = (val, defval) => {
-    if (typeof val === 'number') defval = val;else if (!isNaN(parseFloat(val)) && isFinite(val)) defval = +val;
-
-    return defval;
-  };
-
-  o.str = (val, defval) => {
-    if (/string|number|boolean/.test(typeof val)) defval = val;
-
-    return String(defval);
-  };
-
-  o.ts = (val, defval) => {
-    if (!isNaN(parseFloat(val)) && isFinite(val)) val = +val;
-    if (val instanceof Date || /string|number/.test(typeof val)) defval = new Date(val).getTime();
-
-    return defval;
-  };
-
-  o.boolean = o.bool;
-  o.number = o.num;
-  o.string = o.str;
-
-  Object.keys(o).forEach(fnname => o['t' + fnname] = (val, defval) => o[fnname](val || null, defval));
-
-  return o;
-})({});
-return module.exports;});
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_evtdelegator = f()}})(function(){var define,module,exports;module={exports:(exports={})};
-// Filename: evtdelegator.js  
-// Timestamp: 2017.10.13-16:12:18 (last modified)
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.evdelegate_001_evdelegate = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+// Filename: evdelegator.js  
+// Timestamp: 2017.10.19-22:16:30 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>  
 
 module.exports = (o => {
@@ -24850,26 +24803,68 @@ module.exports = (o => {
   //
   // convenience data
   //
-  o.publish = (cfg, etype, ev) => (typeof cfg.publishfn === 'function' && cfg.publishfn(cfg, etype, ev), cfg);
+  o.lsnarr = (elem, evarr, fn) => evarr.map(e => elem.addEventListener(e, fn));
 
-  o.lsnpub = (cfg, elem, evarr, fn) => o.lsnarr(evarr, elem, e => fn(cfg, e, fn));
+  o.lsnrmarr = (elem, evarr, fn) => evarr.map(e => elem.removeEventListener(e, fn));
 
-  o.lsnarr = (evarr, elem, fn) => evarr.map(e => elem.addEventListener(e, fn));
+  return o;
+})({});
+return module.exports;});
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.castas_003_castas = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+// Filename: castas.js  
+// Timestamp: 2017.04.23-14:09:16 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
 
-  o.lsnrmarr = (evarr, elem, fn) => evarr.map(e => elem.removeEventListener(e, fn));
+const castas = module.exports = (o => {
+
+  o.bool = (val, defval) => {
+    if (String(val) === 'true') defval = true;else if (String(val) === 'false') defval = false;
+
+    return Boolean(defval);
+  };
+
+  o.arr = (val, defval) => {
+    if (Array.isArray(val)) defval = val;else if (typeof val === 'string') defval = val.split(',');
+
+    return defval;
+  };
+
+  o.num = (val, defval) => {
+    if (typeof val === 'number') defval = val;else if (!isNaN(parseFloat(val)) && isFinite(val)) defval = +val;
+
+    return defval;
+  };
+
+  o.str = (val, defval) => {
+    if (/string|number|boolean/.test(typeof val)) defval = val;
+
+    return String(defval);
+  };
+
+  o.ts = (val, defval) => {
+    if (!isNaN(parseFloat(val)) && isFinite(val)) val = +val;
+    if (val instanceof Date || /string|number/.test(typeof val)) defval = new Date(val).getTime();
+
+    return defval;
+  };
+
+  o.boolean = o.bool;
+  o.number = o.num;
+  o.string = o.str;
+
+  Object.keys(o).forEach(fnname => o['t' + fnname] = (val, defval) => o[fnname](val || null, defval));
 
   return o;
 })({});
 return module.exports;});
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_three = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 // Filename: readyaim_three.js  
-// Timestamp: 2017.10.08-04:20:12 (last modified)
+// Timestamp: 2017.10.20-00:02:42 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>  
 
 const THREE = three_0871_build_three;
 
 module.exports = (o => {
-
   o.iscamera = camera => camera instanceof THREE.Camera;
 
   o.setmeshcolor = (mesh, color) => mesh.material.color.setHex(color);
@@ -24877,16 +24872,18 @@ module.exports = (o => {
   o.getimgtexture = (imgsrc, loader) => (loader = new THREE.TextureLoader(), loader.load(imgsrc));
 
   o.getimgsprite = cfg => new THREE.Sprite(new THREE.SpriteMaterial({
-    color: cfg.crosscolor || 0xffffff,
-    map: o.getimgtexture(cfg.crossimgsrc)
+    color: cfg.color || 0xffffff,
+    map: o.getimgtexture(cfg.imgsrc)
   }));
+
+  o.getscaleimgsprite = (cfg, sprite) => (sprite = o.getimgsprite(cfg), sprite.scale.set(cfg.scale[0], cfg.scale[1], 1), sprite);
 
   return o;
 })({});
 return module.exports;});
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_reticle = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 // Filename: readyaim_reticle.js  
-// Timestamp: 2017.10.14-13:29:03 (last modified)
+// Timestamp: 2017.10.20-00:06:43 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>  
 //
 // one reticle per camera, crosshair or dot
@@ -24896,9 +24893,8 @@ const THREE = three_0871_build_three,
       readyaim_three = readyaim_001_src_readyaim_three;
 
 module.exports = (o => {
-
   o.getreticlesprite = (cfg, scene, camera) => {
-    var sprite = readyaim_three.getimgsprite(cfg);
+    let sprite = readyaim_three.getimgsprite(cfg);
 
     sprite.position.set(0, 0, -10);
 
@@ -24912,19 +24908,21 @@ module.exports = (o => {
   // settings... global cfg
   // Sets the depth and scale of the reticle - reduces eyestrain and depth issues 
   o.setDepthAndScale = function (opts, canvasscene, depth) {
-    var crosshair = opts.mesh.parent;
-    var z = Math.abs(depth || opts.restPoint); //Default to user far setting
-    var cameraZ = canvasscene.camera.position.z;
-    //Force reticle to appear the same size - scale
-    //http://answers.unity3d.com/questions/419342/make-gameobject-size-always-be-the-same.html
-    var scale = Math.abs(cameraZ - z) - Math.abs(cameraZ);
+    let crosshair = opts.mesh.parent,
+        z = Math.abs(depth || opts.restPoint),
+        // Default to user far setting
+    cameraZ = canvasscene.camera.position.z,
 
-    //Set Depth
+    // Force reticle to appear the same size - scale
+    // http://answers.unity3d.com/questions/419342/make-gameobject-size-always-be-the-same.html
+    scale = Math.abs(cameraZ - z) - Math.abs(cameraZ);
+
+    // Set Depth
     crosshair.position.x = 0;
     crosshair.position.y = 0;
     crosshair.position.z = o.clampBottom(z, canvasscene.camera.near + 0.1) * -1;
 
-    //Set Scale
+    // Set Scale
     crosshair.scale.set(scale, scale, scale);
 
     return opts;
@@ -24936,35 +24934,29 @@ module.exports = (o => {
       outerRadius: opts.outerRadius
     });
 
-    const geometryScale = o.getringgeometry({
+    let geometryScale = o.getringgeometry({
       innerRadius: opts.innerRadiusTo,
       outerRadius: opts.outerRadiusTo
     });
 
     // Add Morph Targets for scale animation
     geometry.morphTargets.push({
-      name: "target1",
+      name: 'target1',
       vertices: geometryScale.vertices
     });
 
     return geometry;
   };
 
-  o.getreticlemesh = opts => {
-    return new THREE.Mesh(o.getreticlegeometry(opts), new THREE.MeshBasicMaterial({
-      color: opts.color,
-      morphTargets: true,
-      fog: false,
-      visible: opts.visible
-      //depthWrite: false,
-      //depthTest: false
-    }));
-    //finopt.mesh.visible = finopt.visible;
-  };
+  o.getreticlemesh = opts => new THREE.Mesh(o.getreticlegeometry(opts), new THREE.MeshBasicMaterial({
+    color: opts.color,
+    morphTargets: true,
+    fog: false,
+    visible: opts.visible
+  }));
 
   o.getringgeometry = opt => new THREE.RingGeometry(opt.innerRadius, opt.outerRadius, opt.thetaSegments || 32, opt.phiSegments || 3, opt.thetaStart0, Math.PI * 2); // 90 degree
 
-  //o.getopts = (opts = {}, canvasscene, parentContainer) => {
   o.getopts = (opts = {}, canvasscene) => {
     let finopt = {};
 
@@ -25023,9 +25015,57 @@ module.exports = (o => {
   return o;
 })({});
 return module.exports;});
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_events = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+// Filename: readyaim_events.js  
+// Timestamp: 2017.10.20-00:05:18 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>  
+
+module.exports = (o => {
+  o.GAZEOVER = 'gazeover';
+  o.GAZEOUT = 'gazeout';
+  o.GAZELONG = 'gazelong';
+  o.GAZECLICK = 'gazeclick';
+
+  o.publish = (state, ...args) => (typeof state.oneventfn === 'function' && state.oneventfn(state, ...args), state);
+
+  return o;
+})({});
+return module.exports;});
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_mesh = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+// Filename: readyaim_mesh.js  
+// Timestamp: 2017.10.20-00:05:35 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>  
+
+const THREE = three_0871_build_three,
+      castas = castas_003_castas;
+
+module.exports = (o => {
+  o.getoptsfuse = opts => ({
+    duration: castas.num(opts.duration, 1.5),
+    color: castas.num(opts.color, 0xffffff),
+    visible: castas.bool(opts.visible, false),
+    clickCancel: castas.bool(opts.clickCancel, false)
+  });
+
+  o.getoptsreticle = opts => ({
+    hoverColor: opts.hoverColor && new THREE.Color(opts.hoverColor)
+  });
+
+  o.createtargetdata = (mesh, opts) => ({
+    uuid: mesh.uuid,
+    gazeable: true,
+    fuse: o.getoptsfuse(opts.fuse || {}),
+    reticle: o.getoptsfuse(opts.reticle || {})
+  });
+
+  o.isgazeable = targetdata => Boolean(targetdata && targetdata.gazeable);
+
+  return o;
+})({});
+return module.exports;});
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_fuse = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 // Filename: readyaim_fuse.js  
-// Timestamp: 2017.10.13-14:47:28 (last modified)
+// Timestamp: 2017.10.20-00:05:27 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 //
 // multiple fuse, one for each object
@@ -25036,7 +25076,6 @@ const THREE = three_0871_build_three,
       castas = castas_003_castas;
 
 module.exports = (o => {
-
   o.getringgeometry = opt => new THREE.RingGeometry(opt.innerRadius, opt.outerRadius, opt.thetaSegments, opt.phiSegments, opt.thetaStart, Math.PI / 2); // 90 degree
 
   o.getringmesh = opt => new THREE.Mesh(o.getringgeometry(opt), new THREE.MeshBasicMaterial({
@@ -25045,8 +25084,8 @@ module.exports = (o => {
     fog: false
   }));
 
-  o.getfusemesh = (opt, mesh = o.getringmesh(opt)) => (mesh.visible = opt.visible, mesh.position.z = 0.0001, // Keep in front of reticle
-  mesh.rotation.y = 180 * (Math.PI / 180), //Make it clockwise
+  o.getfusemesh = (opt, mesh = o.getringmesh(opt)) => (mesh.visible = opt.visible, mesh.position.z = 0.0001, // at front of reticle
+  mesh.rotation.y = 180 * (Math.PI / 180), // make clockwise
   mesh);
 
   // after or while being called... should have 'duration' set by callee
@@ -25057,43 +25096,33 @@ module.exports = (o => {
     finopt.globalDuration = castas.num(opts.duration, 2.5);
     finopt.vibratePattern = castas.num(opts.vibrate, 100);
     finopt.color = opts.color || 0x00fff6;
-    //finopt.color          = 0xffaffa;
     finopt.innerRadius = castas.num(opts.innerRadius, 0.045);
     finopt.outerRadius = castas.num(opts.outerRadius, 0.06);
-
-    // boolean?
-    finopt.clickCancel = opts.clickCancel === undefined ? false : opts.clickCancelFuse; //default to false;
-
+    finopt.clickCancel = castas.bool(opts.clickCancel, false);
 
     finopt.phiSegments = 3;
     finopt.thetaSegments = 32;
     finopt.thetaStart = Math.PI / 2;
 
-    ////////////////////////
-    ////////////////////////
     finopt.duration = finopt.globalDuration;
     finopt.timeDone = false;
-    //finopt.mesh = o.getfusemesh(finopt);
-    //finopt = o.update(finopt, 0);
-    //parentContainer.add(finopt.mesh);
 
     return finopt;
   };
 
   o.update = (fuseopts, elapsed = 0) => {
-    //--RING
-    var gazedTime = elapsed / fuseopts.duration;
-    var thetaLength = gazedTime * (Math.PI * 2);
+    let gazedTime = elapsed / fuseopts.duration,
+        thetaLength = gazedTime * (Math.PI * 2),
+        { vertices } = fuseopts.mesh.geometry,
+        radius = fuseopts.innerRadius,
+        radiusStep = (fuseopts.outerRadius - fuseopts.innerRadius) / fuseopts.phiSegments,
+        count = 0;
 
-    var vertices = fuseopts.mesh.geometry.vertices;
-    var radius = fuseopts.innerRadius;
-    var radiusStep = (fuseopts.outerRadius - fuseopts.innerRadius) / fuseopts.phiSegments;
-    var count = 0;
+    for (let i = 0; i <= fuseopts.phiSegments; i++) {
+      for (let y = 0; y <= fuseopts.thetaSegments; y++) {
+        let vertex = vertices[count],
+            segment = fuseopts.thetaStart + y / fuseopts.thetaSegments * thetaLength;
 
-    for (var i = 0; i <= fuseopts.phiSegments; i++) {
-      for (var y = 0; y <= fuseopts.thetaSegments; y++) {
-        var vertex = vertices[count];
-        var segment = fuseopts.thetaStart + y / fuseopts.thetaSegments * thetaLength;
         vertex.x = radius * Math.cos(segment);
         vertex.y = radius * Math.sin(segment);
         count++;
@@ -25103,7 +25132,7 @@ module.exports = (o => {
 
     fuseopts.mesh.geometry.verticesNeedUpdate = true;
 
-    //Disable fuse if reached 100%
+    // disable fuse if 100%
     if (gazedTime >= 1) {
       fuseopts.active = false;
     }
@@ -25113,10 +25142,7 @@ module.exports = (o => {
 
   // only update if active and !timeDone
   // consider moving timeDone to controlling script
-  o.updateactive = (opts, fuseopts, elapsed) => {
-    //if (!this.active || fuse.timeDone) return;
-    return fuseopts.active && !opts.timeDone ? o.update(fuseopts, elapsed) : fuseopts;
-  };
+  o.updateactive = (opts, fuseopts, elapsed) => fuseopts.active && !opts.timeDone ? o.update(fuseopts, elapsed) : fuseopts;
 
   o.hide = fuseopts => (fuseopts.mesh.visibile = false, fuseopts);
 
@@ -25141,88 +25167,19 @@ module.exports = (o => {
   return o;
 })({});
 return module.exports;});
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_mesh = f()}})(function(){var define,module,exports;module={exports:(exports={})};
-// Filename: readyaim_mesh.js  
-// Timestamp: 2017.10.14-13:28:38 (last modified)
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_render = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+// Filename: readyaim_render.js  
+// Timestamp: 2017.10.20-00:07:21 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>  
 
-const THREE = three_0871_build_three,
-      castas = castas_003_castas,
-      readyaim_reticle = readyaim_001_src_readyaim_reticle,
-      readyaim_fuse = readyaim_001_src_readyaim_fuse;
-
-module.exports = (o => {
-
-  const EVT_ONGAZEOUT = 'onGazeOut',
-        EVT_ONGAZEOVER = 'onGazeOver',
-        EVT_ONGAZELONG = 'onGazeLong',
-        EVT_ONGAZECLICK = 'onGazeClick';
-
-  o.onfn = fn => typeof fn === 'function' ? fn : () => {};
-
-  o.onevtfn = evtfn => (mesh, targetdata) => o.onfn(evtfn)(mesh, targetdata);
-
-  o.getoptsfuse = opts => {
-    let finopt = {};
-
-    finopt.duration = castas.num(opts.duration, 1.5);
-    finopt.color = castas.num(opts.color, 0xffffff);
-    finopt.visible = castas.bool(opts.visible, false);
-    finopt.clickCancel = castas.bool(opts.clickCancel, false);
-
-    return finopt;
-  };
-
-  o.getoptsreticle = opts => {
-    let finopt = {};
-
-    finopt.hoverColor = opts.hoverColor && new THREE.Color(opts.hoverColor);
-
-    return finopt;
-  };
-
-  o.gettargetdata = (mesh, opts) => {
-    let targetdata = {
-      fuse: {},
-      reticle: {}
-    };
-
-    // pull getopts...
-    targetdata.uuid = mesh.uuid;
-    targetdata.gazeable = true;
-
-    targetdata.fuse = o.getoptsfuse(opts.fuse || {});
-    targetdata.reticle = o.getoptsfuse(opts.reticle || {});
-
-    targetdata.ongazeover = o.onevtfn(opts[EVT_ONGAZEOVER]);
-    targetdata.ongazeout = o.onevtfn(opts[EVT_ONGAZEOUT]);
-    targetdata.ongazelong = o.onevtfn(opts[EVT_ONGAZELONG]);
-    targetdata.ongazeclick = o.onevtfn(opts[EVT_ONGAZECLICK]);
-
-    return targetdata;
-  };
-
-  o.isgazeable = targetdata => Boolean(targetdata && targetdata.gazeable);
-
-  return o;
-})({});
-return module.exports;});
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim = f()}})(function(){var define,module,exports;module={exports:(exports={})};
-// Filename: raedyaim.js  
-// Timestamp: 2017.10.14-13:28:12 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>
-
-const THREE = three_0871_build_three,
-      castas = castas_003_castas,
-      evtdelegator = readyaim_001_src_evtdelegator,
-      readyaim_reticle = readyaim_001_src_readyaim_reticle,
+const readyaim_reticle = readyaim_001_src_readyaim_reticle,
+      readyaim_events = readyaim_001_src_readyaim_events,
       readyaim_three = readyaim_001_src_readyaim_three,
       readyaim_mesh = readyaim_001_src_readyaim_mesh,
       readyaim_fuse = readyaim_001_src_readyaim_fuse;
 
 module.exports = (o => {
-
-  o = (camera, opts = {}) => o.init(camera, opts);
+  o = state => o.update(state);
 
   o.vibrate = opts => navigator.vibrate && navigator.vibrate(opts);
 
@@ -25230,20 +25187,12 @@ module.exports = (o => {
 
   o.rmtargetdata = (state, mesh) => state.targets[mesh.uuid] = null;
 
-  o.ontargetgazeover = (state, mesh) => o.gettargetdata(state, mesh).ongazeover(mesh);
-
-  o.ontargetgazeout = (state, mesh) => o.gettargetdata(state, mesh).ongazeout(mesh);
-
-  o.ontargetgazelong = (state, mesh) => o.gettargetdata(state, mesh).ongazelong(mesh);
-
-  o.ontargetgazeclick = (state, mesh) => o.gettargetdata(state, mesh).ongazeclick(mesh);
-
   o.istargetgazeable = (state, mesh) => readyaim_mesh.isgazeable(o.gettargetdata(state, mesh));
 
   o.isreticletarget = (state, mesh, reticle) => Boolean(o.istargetgazeable(state, mesh) && (mesh.visible || !reticle.ignoreInvisible));
 
   o.proximity = (state, reticle) => {
-    let camera = state.camera;
+    let { camera } = state;
 
     // Use frustum to see if any targetable object is visible
     // http://stackoverflow.com/questions/17624021/determine-if-a-mesh-is-visible-on-the-viewport-according-to-current-camera
@@ -25256,67 +25205,18 @@ module.exports = (o => {
     reticle.mesh.visible = state.collisionList.find(mesh => o.istargetgazeable(state, mesh) && (mesh.visible || !reticle.ignoreInvisible) && state.frustum.intersectsObject(mesh));
   };
 
-  var detectHit = (state, reticle) => {
-    state.raycaster.setFromCamera(state.vector, state.camera);
-
-    var intersects = state.raycaster.intersectObjects(state.collisionList);
-    var intersectsCount = intersects.length;
-    //Detect
-    if (intersectsCount) {
-      var newMesh, targetData, intersect;
-
-      //Check if what we are hitting can be used
-      intersect = intersects.find(({ object }) => o.isreticletarget(state, object, reticle));
-
-      newMesh = intersect && intersect.object;
-
-      //There is no valid object
-      if (!newMesh) return;
-
-      //Is it a new object?
-      if (state.INTERSECTED != newMesh) {
-        //If old INTERSECTED i.e. not null reset and gazeout 
-        if (state.INTERSECTED) {
-          gazeOut(state, state.INTERSECTED, state.reticle);
-        };
-
-        //Updated INTERSECTED with new object
-        state.INTERSECTED = newMesh;
-        //Is the object gazeable?
-        //if (INTERSECTED.gazeable) {
-        //Yes
-        gazeOver(state, state.INTERSECTED, state.reticle, state.fuse);
-        //}
-      } else {
-        //Ok it looks like we are in love
-        gazeLong(state, state.INTERSECTED, state.reticle, state.fuse);
-      }
-    } else {
-      //Is the object gazeable?
-      //if (INTERSECTED.gazeable) {
-      if (state.INTERSECTED) {
-        //GAZE OUT
-        gazeOut(state, state.INTERSECTED, state.reticle);
-      }
-      //}
-      state.INTERSECTED = null;
-    }
-
-    return state;
-  };
-
-  var gazeOut = (state, mesh, reticle) => {
+  o.gazeOut = (state, mesh, reticle) => {
     mesh.userData.hitTime = 0;
 
     state.fuse = readyaim_fuse.out(state.fuse, state.fuse);
     reticle.hit = false;
     state.reticle = readyaim_reticle.setDepthAndScale(state.reticle, state);
 
-    o.ontargetgazeout(state, mesh);
+    state = readyaim_events.publish(state, readyaim_events.GAZEOUT, mesh);
   };
 
-  var gazeOver = (state, mesh, reticle, fuse) => {
-    var meshData = o.gettargetdata(state, mesh);
+  o.gazeOver = (state, mesh, reticle, fuse) => {
+    let meshData = o.gettargetdata(state, mesh);
 
     // at reticle.update
     reticle.colorTo = meshData.reticle.hoverColor || reticle.globalColorTo;
@@ -25330,15 +25230,16 @@ module.exports = (o => {
 
     o.vibrate(reticle.vibrateHover);
 
-    o.ontargetgazeover(state, mesh);
+    state = readyaim_events.publish(state, readyaim_events.GAZEOVER, mesh);
   };
 
-  var gazeLong = (state, mesh, reticle, fuse) => {
-    var distance;
-    var elapsed = state.clock.getElapsedTime();
-    var gazeTime = elapsed - mesh.userData.hitTime;
-    //There has to be a better  way...
-    //Keep updating distance while user is focused on target
+  o.gazeLong = (state, mesh, reticle, fuse) => {
+    let elapsed = state.clock.getElapsedTime(),
+        gazeTime = elapsed - mesh.userData.hitTime,
+        distance;
+
+    // There has to be a better  way...
+    // Keep updating distance while user is focused on target
     if (reticle.active) {
       if (!state.lockDistance) {
         reticle.worldPosition.setFromMatrixPosition(mesh.matrixWorld);
@@ -25350,78 +25251,157 @@ module.exports = (o => {
 
       if (!state.lockDistance) {
         state.reticle = readyaim_reticle.setDepthAndScale(state.reticle, state, distance);
-        //          reticle.setDepthAndScale(distance);
       }
     }
 
-    //Fuse
-
-    //if (gazeTime >= fuse.duration && !fuse.active && !fuse.timeDone) {
+    // Fuse
     if (readyaim_fuse.isdurationengaged(fuse, gazeTime)) {
-      //Vibrate
       fuse = readyaim_fuse.engage(fuse);
       o.vibrate(fuse.vibratePattern);
-      o.ontargetgazelong(state, mesh);
-      //Reset the clock
+
+      state = readyaim_events.publish(state, readyaim_events.GAZELONG, mesh);
+      // Reset the clock
       mesh.userData.hitTime = elapsed;
     } else {
       state.fuse = readyaim_fuse.updateactive(state.fuse, state.fuse, gazeTime);
     }
   };
 
-  var gazeClick = (state, mesh, fuse) => {
-    var meshData = o.gettargetdata(state, mesh);
-    var clickCancel = meshData.fuse.clickCancel != null ? meshData.fuse.clickCancel : fuse.clickCancel;
+  o.gazeClick = (state, mesh, fuse) => {
+    let meshData = o.gettargetdata(state, mesh),
+        clickCancel = meshData.fuse.clickCancel || fuse.clickCancel;
 
     if (clickCancel) {
-      //Reset the clock
+      // Reset the clock
       mesh.userData.hitTime = state.clock.getElapsedTime();
-      //Force gaze to end...this might be to assumptions
+      // Force gaze to end...this might be to assumptions
       state.fuse = readyaim_fuse.updateactive(fuse, fuse, fuse.duration);
-      //fuse.update(fuse.duration);
+      // fuse.update(fuse.duration);
     }
 
-    //Does object have an action assigned to it?
-    o.ontargetgazeclick(state, mesh);
+    // Does object have an action assigned to it?
+    // console.log('ontargetgazeclick');
+    state = readyaim_events.publish(state, readyaim_events.GAZECLICK, mesh);
+
+    // o.ontargetgazeclick(state, mesh);
   };
 
-  o.addmesh = (state, mesh, options = {}) => {
-    let targetdata = readyaim_mesh.gettargetdata(mesh, options);
-    state.targets[targetdata.uuid] = targetdata;
-    state.collisionList.push(mesh);
+  o.detectHit = (state, reticle) => {
+    state.raycaster.setFromCamera(state.vector, state.camera);
+
+    let intersects = state.raycaster.intersectObjects(state.collisionList),
+        intersectsCount = intersects.length;
+
+    // Detect
+    if (intersectsCount) {
+      let newMesh, intersect;
+
+      // Check if what we are hitting can be used
+      intersect = intersects.find(({ object }) => o.isreticletarget(state, object, reticle));
+      // console.log('intersect', intersect);
+
+      newMesh = intersect && intersect.object;
+
+      // There is no valid object
+      if (!newMesh) return;
+
+      // Is it a new object?
+      if (state.INTERSECTED !== newMesh) {
+        // If old INTERSECTED i.e. not null reset and gazeout 
+        if (state.INTERSECTED) {
+          o.gazeOut(state, state.INTERSECTED, state.reticle);
+        }
+
+        // Updated INTERSECTED with new object
+        state.INTERSECTED = newMesh;
+        // Is the object gazeable?
+        // if (INTERSECTED.gazeable) {
+        // Yes
+        o.gazeOver(state, state.INTERSECTED, state.reticle, state.fuse);
+        // }
+      } else {
+        // Ok it looks like we are in love
+        o.gazeLong(state, state.INTERSECTED, state.reticle, state.fuse);
+      }
+    } else {
+      // Is the object gazeable?
+      // if (INTERSECTED.gazeable) {
+      if (state.INTERSECTED) {
+        // GAZE OUT
+        o.gazeOut(state, state.INTERSECTED, state.reticle);
+      }
+      // }
+      state.INTERSECTED = null;
+    }
+
     return state;
   };
 
-  o.remove = (state, mesh) => {
+  o.update = state => {
+    const delta = state.clock.getDelta();
+
+    o.detectHit(state, state.reticle);
+
+    // Proximity
+    if (state.proximity) {
+      o.proximity(state, state.reticle);
+    }
+    // Animation
+    state.reticle = readyaim_reticle.update(state.reticle, delta);
+
+    return state;
+  };
+
+  return o;
+})();
+return module.exports;});
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+// Filename: raedyaim.js  
+// Timestamp: 2017.10.20-00:04:41 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
+
+const THREE = three_0871_build_three,
+      evdel = evdelegate_001_evdelegate,
+      castas = castas_003_castas,
+      readyaim_reticle = readyaim_001_src_readyaim_reticle,
+      readyaim_render = readyaim_001_src_readyaim_render,
+      readyaim_events = readyaim_001_src_readyaim_events,
+      readyaim_three = readyaim_001_src_readyaim_three,
+      readyaim_mesh = readyaim_001_src_readyaim_mesh,
+      readyaim_fuse = readyaim_001_src_readyaim_fuse;
+
+module.exports = (o => {
+  o = (camera, opts = {}) => o.init(camera, opts);
+
+  o.three = readyaim_three;
+  o.update = readyaim_render.update;
+  o.events = readyaim_events;
+
+  o.addmesh = (state, mesh, opts = {}) => {
+    let targetdata = readyaim_mesh.createtargetdata(mesh, opts);
+
+    state.targets[targetdata.uuid] = targetdata;
+    state.collisionList.push(mesh);
+
+    return state;
+  };
+
+  o.rmmesh = (state, mesh) => {
     state.targets[mesh.uuid] = null;
     state.collisionList = state.collisionList.filter(cmesh => cmesh !== mesh);
 
     return state;
   };
 
-  o.update = state => {
-    var delta = state.clock.getDelta(); //
-    detectHit(state, state.reticle);
-
-    //Proximity
-    if (state.proximity) {
-      o.proximity(state, state.reticle);
-    }
-    //Animation
-    state.reticle = readyaim_reticle.update(state.reticle, delta);
-
-    return state;
-  };
-
   o.init = (camera, options = {}) => {
+    let state = {};
+
     if (!readyaim_three.iscamera(camera)) {
-      console.error("[!!!] readyaim: invalid camera");
+      console.error('[!!!] readyaim: invalid camera');
       return null;
     }
 
-    let state = {};
-
-    state.camera = camera; //required
+    state.camera = camera;
     state.proximity = castas.bool(options.proximity, false);
     state.lockDistance = castas.bool(options.lockDistance, false);
     state.isClickEnabled = castas.bool(options.isClickEnabled, true);
@@ -25429,44 +25409,22 @@ module.exports = (o => {
     state.targets = {};
     state.INTERSECTED = null;
 
-    //Raycaster Setup
     state.raycaster = new THREE.Raycaster();
     state.vector = new THREE.Vector2(0, 0);
-    //Update Raycaster 
-    if (options.near && options.near >= 0) {
-      state.raycaster.near = options.near;
-    }
-    if (options.far && options.far >= 0) {
-      state.raycaster.far = options.far;
-    }
 
-    //Create Parent Object for reticle and fuse
+    if (options.near && options.near >= 0) state.raycaster.near = options.near;
+
+    if (options.far && options.far >= 0) state.raycaster.far = options.far;
+
+    // reticle and fuse container
     state.parentContainer = new THREE.Object3D();
     state.camera.add(state.parentContainer);
 
-    //Proximity Setup
     if (state.proximity) {
       state.frustum = new THREE.Frustum();
       state.cameraViewProjectionMatrix = new THREE.Matrix4();
     }
 
-    //Enable Click / Tap Events
-    if (state.isClickEnabled) {
-      document.body.addEventListener('touchend', e => {
-        if (state.reticle.hit && state.INTERSECTED) {
-          e.preventDefault();
-          gazeClick(state, state.INTERSECTED, state.fuse);
-        }
-      });
-      document.body.addEventListener('click', e => {
-        if (state.reticle.hit && state.INTERSECTED) {
-          e.preventDefault();
-          gazeClick(state, state.INTERSECTED, state.fuse);
-        }
-      });
-    }
-
-    //Clock Setup
     state.clock = new THREE.Clock(true);
 
     state.reticle = readyaim_reticle.getopts(options.reticle, state);
@@ -25474,7 +25432,6 @@ module.exports = (o => {
     state.parentContainer.add(state.reticle.mesh);
     state.reticle = readyaim_reticle.setDepthAndScale(state.reticle, state);
 
-    // make getopts reusable
     state.fuse = readyaim_fuse.getopts(options.fuse);
     state.fuse.mesh = readyaim_fuse.getfusemesh(state.fuse);
     state.fuse = readyaim_fuse.update(state.fuse, 0);
@@ -25483,53 +25440,31 @@ module.exports = (o => {
     return state;
   };
 
-  o.attach = (cfg, elem, fnobj) => {
-    let slugfn = x => {},
-        oneventfn = fnobj.oneventfn || slugfn;
-    //oninertiafn = fnobj.oninertiafn || slugfn,
-    //onmovefn = fnobj.onmovefn || slugfn;
-
-    /*
-    rafcfg = touchboom_touchmouse(rafcfg, touchboom_ctrl, elem);
-    rafcfg = touchboom_key(rafcfg, touchboom_ctrl, elem);
-    rafcfg = touchboom_ctrl(rafcfg, elem,
-                         oneventfn,
-                         oninertiafn,
-                         onmovefn);
-    */
-    let body = document.body,
-        evdel = evtdelegator;
-
-    if (!elem || !elem.id) {
-      console.error('parent element exist w/ valid id');
-      return cfg;
-    }
-
+  // define dispatcher function, and enable touch/click
+  o.attach = (state, elem, fnobj) => {
     if (!o.delegator) {
       o.delegator = evdel.create();
 
-      evtdelegator.lsnpub({}, body, [
-      //'touchcancel'
-      'touchend', 'click'], (cfg, e) => {
-        let delegatorstate = evdel.getactivestate(o.delegator);
-        console.log('click', delegatorstate);
+      evdel.lsnarr(document.body, ['touchend', 'click'], e => {
+        let delegatorstate = evdel.getelemstate(o.delegator, e.target);
+        // statemeta = delegatorstate && evdel.getstatemeta(delegatorstate);
 
         if (delegatorstate) {
-          //if (state.reticle.hit && state.INTERSECTED) {
-          //  e.preventDefault();
-          //  gazeClick(state, state.INTERSECTED, state.fuse);
-          //}
+          if (state.reticle.hit && state.INTERSECTED) {
+            e.preventDefault();
+
+            state = readyaim_events.publish(state, readyaim_events.GAZECLICK, state.INTERSECTED);
+          }
         }
       });
     }
-    /*
-    cfg = touchboom_ctrl.onmoveend(cfg, 'touchmouse', (cfg, type, e) => {
-      evdel.rmactivestate(o.delegator);
-    });
-    */
-    o.delegator = evdel.addelemstate(o.delegator, elem, cfg);
 
-    return cfg;
+    // add state for this element
+    o.delegator = evdel.addelemstate(o.delegator, elem, state);
+
+    state.oneventfn = fnobj.oneventfn || (() => {});
+
+    return state;
   };
 
   return o;
