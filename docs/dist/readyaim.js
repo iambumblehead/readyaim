@@ -24859,7 +24859,7 @@ const castas = module.exports = (o => {
 return module.exports;});
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_three = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 // Filename: readyaim_three.js  
-// Timestamp: 2017.10.20-00:02:42 (last modified)
+// Timestamp: 2017.10.22-22:11:15 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>  
 
 const THREE = three_0871_build_three;
@@ -24870,6 +24870,15 @@ module.exports = (o => {
   o.setmeshcolor = (mesh, color) => mesh.material.color.setHex(color);
 
   o.getimgtexture = (imgsrc, loader) => (loader = new THREE.TextureLoader(), loader.load(imgsrc));
+
+  o.getfilterimgtexture = (imgsrc, texture) => (texture = o.getimgtexture(imgsrc),
+  // texture.minFilter = THREE.NearestFilter,
+  // console.log('minfilter'),
+  // texture.minFilter = THREE.LinearFilter,
+  // texture.magFilter = THREE.LinearFilter,
+  // texture.minFilter = THREE.NearestFilter,
+  // texture.magFilter = THREE.NearestFilter,
+  texture.minFilter = THREE.NearestFilter, texture.magFilter = THREE.LinearFilter, texture);
 
   o.getimgsprite = cfg => new THREE.Sprite(new THREE.SpriteMaterial({
     color: cfg.color || 0xffffff,
@@ -25065,7 +25074,7 @@ module.exports = (o => {
 return module.exports;});
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_001_src_readyaim_fuse = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 // Filename: readyaim_fuse.js  
-// Timestamp: 2017.10.20-01:01:38 (last modified)
+// Timestamp: 2017.10.23-15:10:49 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 //
 // multiple fuse, one for each object
@@ -25076,7 +25085,10 @@ const THREE = three_0871_build_three,
       castas = castas_003_castas;
 
 module.exports = (o => {
-  o.getringgeometry = opt => new THREE.RingGeometry(opt.innerRadius, opt.outerRadius, opt.thetaSegments, opt.phiSegments, opt.thetaStart, Math.PI / 2); // 90 degree
+  //
+  //
+  o.getringgeometry = opt => new THREE.RingGeometry(opt.innerRadius, opt.outerRadius, opt.thetaSegments, // outer perimeter segments
+  opt.phiSegments, opt.thetaStart, Math.PI / 2);
 
   o.getringmesh = opt => new THREE.Mesh(o.getringgeometry(opt), new THREE.MeshBasicMaterial({
     color: opt.color,
@@ -25088,7 +25100,6 @@ module.exports = (o => {
   mesh.rotation.y = 180 * (Math.PI / 180), // make clockwise
   mesh);
 
-  // after or while being called... should have 'duration' set by callee
   o.getopts = (opts = {}) => {
     let finopt = {};
 
@@ -25110,39 +25121,59 @@ module.exports = (o => {
     return finopt;
   };
 
-  o.update = (fuseopts, elapsed = 0) => {
-    let gazedTime = elapsed / fuseopts.duration,
-        thetaLength = gazedTime * (Math.PI * 2),
-        { vertices } = fuseopts.mesh.geometry,
-        radius = fuseopts.innerRadius,
-        radiusStep = (fuseopts.outerRadius - fuseopts.innerRadius) / fuseopts.phiSegments,
-        count = 0;
+  //   ( x, y ) ._
+  //           /| ^
+  //          / | |
+  //         /  | |
+  //        /   | 
+  //    h  /    | y
+  //      /     | 
+  //     /      | |
+  //    /.      | |
+  //   /  θ  +--| |
+  //  /____\_|__|_v
+  //  |         |
+  //   <-- x -->
+  //
+  o.getvertex = (hypotenuse, radangle) => ({
+    x: hypotenuse * Math.cos(radangle),
+    y: hypotenuse * Math.sin(radangle)
+  });
 
-    for (let i = 0; i <= fuseopts.phiSegments; i++) {
-      for (let y = 0; y <= fuseopts.thetaSegments; y++) {
-        let vertex = vertices[count],
-            segment = fuseopts.thetaStart + y / fuseopts.thetaSegments * thetaLength;
+  o.updateringgeometry = (opts, percent, ringgeometry) => {
+    let thetaEnd = percent * Math.PI * 2,
+        thetaStart = Number(opts.thetaStart),
+        thetaSegments = Number(opts.thetaSegments),
+        hypotenuse = Number(opts.innerRadius),
+        radiusstep = (opts.outerRadius - hypotenuse) / opts.phiSegments;
 
-        vertex.x = radius * Math.cos(segment);
-        vertex.y = radius * Math.sin(segment);
-        count++;
-      }
-      radius += radiusStep;
-    }
+    ringgeometry.vertices.map((vertex, i) => {
+      let segmenttheta = i % (thetaSegments + 1),
+          segmentpercent = segmenttheta / thetaSegments;
 
-    fuseopts.mesh.geometry.verticesNeedUpdate = true;
+      if (i && segmenttheta === 0) hypotenuse += radiusstep; // longer, each time around
 
-    // disable fuse if 100%
-    if (gazedTime >= 1) {
-      fuseopts.active = false;
-    }
+      vertex = Object.assign(vertex, o.getvertex(hypotenuse, thetaStart + thetaEnd * segmentpercent // segment angle
+      ));
+    });
+
+    ringgeometry.verticesNeedUpdate = true;
+
+    return ringgeometry;
+  };
+
+  o.update = (fuseopts, percent = 0) => {
+    fuseopts.mesh.geometry = o.updateringgeometry(fuseopts, percent, fuseopts.mesh.geometry);
+
+    // active if lt 100%
+    fuseopts.active = percent < 1;
 
     return fuseopts;
   };
 
   // only update if active and !timeDone
   // consider moving timeDone to controlling script
-  o.updateactive = (opts, fuseopts, elapsed) => fuseopts.active && !opts.timeDone ? o.update(fuseopts, elapsed) : fuseopts;
+  o.updateactive = (opts, fuseopts, elapsed) => fuseopts.active && !opts.timeDone ? o.update(fuseopts, elapsed / fuseopts.duration) : fuseopts;
 
   o.hide = fuseopts => (fuseopts.mesh.visibile = false, fuseopts);
 

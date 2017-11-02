@@ -1,5 +1,5 @@
 // Filename: readyaim_fuse.js  
-// Timestamp: 2017.10.20-01:01:38 (last modified)
+// Timestamp: 2017.10.23-15:41:53 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 //
 // multiple fuse, one for each object
@@ -10,14 +10,16 @@ const THREE = require('three'),
       castas = require('castas');
 
 module.exports = (o => {
+  //
+  //
   o.getringgeometry = opt =>
     new THREE.RingGeometry(
       opt.innerRadius,
       opt.outerRadius,
-      opt.thetaSegments,
+      opt.thetaSegments, // outer perimeter segments
       opt.phiSegments,
       opt.thetaStart,
-      Math.PI / 2); // 90 degree
+      Math.PI / 2);
 
   o.getringmesh = opt =>
     new THREE.Mesh(o.getringgeometry(opt), new THREE.MeshBasicMaterial({
@@ -32,7 +34,6 @@ module.exports = (o => {
     mesh.rotation.y = 180 * (Math.PI / 180), // make clockwise
     mesh);
 
-  // after or while being called... should have 'duration' set by callee
   o.getopts = (opts = {}) => {
     let finopt = {};
 
@@ -54,32 +55,60 @@ module.exports = (o => {
     return finopt;
   };
 
-  o.update = (fuseopts, elapsed = 0) => {
-    let gazedTime = elapsed / fuseopts.duration,
-        thetaLength = gazedTime * (Math.PI * 2),
-        { vertices } = fuseopts.mesh.geometry,
-        radius = fuseopts.innerRadius,
-        radiusStep = (fuseopts.outerRadius - fuseopts.innerRadius) / fuseopts.phiSegments,
-        count = 0;
+  //   ( x, y ) ._
+  //           /| ^
+  //          / | |
+  //         /  | |
+  //        /   | 
+  //    h  /    | y
+  //      /     | 
+  //     /      | |
+  //    /.      | |
+  //   /  θ  +--| |
+  //  /____\_|__|_v
+  //  |         |
+  //   <-- x -->
+  //
+  o.getvertex = (hypotenuse, radangle) => ({
+    x : hypotenuse * Math.cos(radangle),
+    y : hypotenuse * Math.sin(radangle)
+  });
 
-    for (let i = 0; i <= fuseopts.phiSegments; i++) {
-      for (let y = 0; y <= fuseopts.thetaSegments; y++) {
-        let vertex = vertices[count],
-            segment = fuseopts.thetaStart + y / fuseopts.thetaSegments * thetaLength;
+  //
+  // for speed, consider a different approach...
+  // adding more faces (resolution), then
+  // painting faces within range
+  //
+  o.updateringgeometry = (opts, percent, ringgeometry) => {
+    let thetaEnd = percent * Math.PI * 2,
+        thetaStart = Number(opts.thetaStart),
+        thetaSegments = Number(opts.thetaSegments),
+        hypotenuse = Number(opts.innerRadius),
+        radiusstep = (opts.outerRadius - hypotenuse) / opts.phiSegments;
 
-        vertex.x = radius * Math.cos(segment);
-        vertex.y = radius * Math.sin(segment);
-        count++;
-      }
-      radius += radiusStep;
-    }
+    ringgeometry.vertices.map((vertex, i) => {
+      let segmenttheta = i % (thetaSegments + 1),
+          segmentpercent = segmenttheta / thetaSegments;
 
-    fuseopts.mesh.geometry.verticesNeedUpdate = true;
+      if (i && segmenttheta === 0)
+        hypotenuse += radiusstep; // longer, each time around
 
-    // disable fuse if 100%
-    if (gazedTime >= 1) {
-      fuseopts.active = false;
-    }
+      vertex = Object.assign(vertex, o.getvertex(hypotenuse, (
+        thetaStart + thetaEnd * segmentpercent // segment angle
+      )));
+    });
+
+    ringgeometry.verticesNeedUpdate = true;
+
+    return ringgeometry;
+  };
+
+  o.update = (fuseopts, percent = 0) => {
+    fuseopts.mesh.geometry = o.updateringgeometry(
+      fuseopts, percent, fuseopts.mesh.geometry);
+
+    // active if lt 100%
+    fuseopts.active = percent < 1;
 
     return fuseopts;
   };
@@ -88,7 +117,7 @@ module.exports = (o => {
   // consider moving timeDone to controlling script
   o.updateactive = (opts, fuseopts, elapsed) =>
     (fuseopts.active && !opts.timeDone)
-      ? o.update(fuseopts, elapsed)
+      ? o.update(fuseopts, elapsed / fuseopts.duration)
       : fuseopts;
 
   o.hide = fuseopts => (
