@@ -12,7 +12,7 @@
   "scripts": {
     "start": "node build.js && node express.js",
     "lint": "eslint 'src/*.js'"
-  },  
+  },
   "pre-commit": {
     "silent": true,
     "run": [
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "castas": "0.0.3",
-    "three": "^0.87.1",
+    "three": "^0.88.0",
     "three-text2d": "^0.3.4",
     "evdelegate": "^0.0.1",
     "touchboom": "^0.2.43"
