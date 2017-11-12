@@ -1,6 +1,6 @@
-// Filename: readyaim_three.js  
-// Timestamp: 2017.10.22-22:11:15 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>  
+// Filename: readyaim_three.js
+// Timestamp: 2017.11.11-23:07:56 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
 
 const THREE = require('three');
 
@@ -17,12 +17,6 @@ module.exports = (o => {
 
   o.getfilterimgtexture = (imgsrc, texture) => (
     texture = o.getimgtexture(imgsrc),
-    // texture.minFilter = THREE.NearestFilter,
-    // console.log('minfilter'),
-    // texture.minFilter = THREE.LinearFilter,
-    // texture.magFilter = THREE.LinearFilter,
-    // texture.minFilter = THREE.NearestFilter,
-    // texture.magFilter = THREE.NearestFilter,
     texture.minFilter = THREE.NearestFilter,
     texture.magFilter = THREE.LinearFilter,
     texture);

@@ -1,5 +1,5 @@
-// Filename: readyaim_fuse.js  
-// Timestamp: 2017.10.23-15:41:53 (last modified)
+// Filename: readyaim_fuse.js
+// Timestamp: 2017.11.11-23:06:51 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 //
 // multiple fuse, one for each object
@@ -10,8 +10,6 @@ const THREE = require('three'),
       castas = require('castas');
 
 module.exports = (o => {
-  //
-  //
   o.getringgeometry = opt =>
     new THREE.RingGeometry(
       opt.innerRadius,
@@ -49,7 +47,7 @@ module.exports = (o => {
     finopt.thetaSegments = 32;
     finopt.thetaStart = Math.PI / 2;
 
-    finopt.duration = finopt.globalDuration;
+    finopt.duration = castas.num(opts.duration, opts.Globalduration);
     finopt.timeDone = false;
 
     return finopt;
@@ -59,9 +57,9 @@ module.exports = (o => {
   //           /| ^
   //          / | |
   //         /  | |
-  //        /   | 
+  //        /   |
   //    h  /    | y
-  //      /     | 
+  //      /     |
   //     /      | |
   //    /.      | |
   //   /  θ  +--| |

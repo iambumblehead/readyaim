@@ -1,6 +1,6 @@
-// Filename: readyaim_mesh.js  
-// Timestamp: 2017.10.20-00:05:35 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>  
+// Filename: readyaim_mesh.js
+// Timestamp: 2017.11.11-23:07:09 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
 
 const THREE = require('three'),
       castas = require('castas');

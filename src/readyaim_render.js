@@ -1,6 +1,6 @@
-// Filename: readyaim_render.js  
-// Timestamp: 2017.10.20-01:07:44 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>  
+// Filename: readyaim_render.js
+// Timestamp: 2017.11.11-23:07:19 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
 
 const readyaim_reticle = require('./readyaim_reticle'),
       readyaim_events = require('./readyaim_events'),
@@ -154,6 +154,7 @@ module.exports = (o => {
 
         // Updated INTERSECTED with new object
         state.INTERSECTED = targetmesh;
+        state.INTERSECTEDTS = Date.now();
 
         o.gazeOver(state, state.INTERSECTED, state.reticle, state.fuse);
       } else {
@@ -176,6 +177,10 @@ module.exports = (o => {
     state = o.detectHit(state, state.reticle);
     state = state.proximity ? o.proximity(state, state.reticle) : state;
     state.reticle = readyaim_reticle.update(state.reticle, delta);
+
+    if (state.reticle.hit) {
+      state.ongazefn(state, state.INTERSECTEDTS, state.INTERSECTED);
+    }
 
     return state;
   };

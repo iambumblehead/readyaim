@@ -1,6 +1,6 @@
-// Filename: readyaim_events.js  
-// Timestamp: 2017.10.20-00:05:18 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>  
+// Filename: readyaim_events.js
+// Timestamp: 2017.11.11-23:06:23 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
 
 module.exports = (o => {
   o.GAZEOVER = 'gazeover';

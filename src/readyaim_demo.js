@@ -1,12 +1,19 @@
-// Filename: readyaim_demo.js  
-// Timestamp: 2017.10.23-00:39:09 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>  
-
+// Filename: readyaim_demo.js
+// Timestamp: 2017.11.11-23:10:02 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
 
 const THREE = require('three'),
       touchboom = require('touchboom'),
-      // text2d = require('three-text2d/lib/'),
       readyaim = require('./readyaim');
+
+function setup (fn, cfg) {
+  const loader = new THREE.FontLoader();
+  loader.load(cfg.fontpath, font => {
+    cfg.font = font;
+
+    fn(cfg);
+  });
+}
 
 function getrootelem () {
   return document.body;
@@ -100,54 +107,26 @@ function getskymesh (cfg) {
 //  });
 // }
 
-function getTextSprite (cfg, text, font) {
-  // const loader = new THREE.FontLoader();
-  // const font = loader.load(
-  // resource URL
-  //  './font/helvetiker_regular.typeface.json');
-  // the createMesh is the same function we saw earlier
-  // text1 = createMesh(new THREE.TextGeometry("Learning", options));
-  // text1.position.z = -100;
-  // text1.position.y = 100;
-  // scene.add(text1);
-
-  // text2 = createMesh(new THREE.TextGeometry("Three.js", options));
-  // scene.add(text2);
-
-  // return createMesh(new THREE.TextGeometry("Three.js", options));
-  return new THREE.Mesh(
-    new THREE.TextGeometry(String(text), {
-      size : 40,
-      height : 1,
-      weight : 'normal',
-
-      // font: 'helvetiker',
-      // font : font,
-      font,
-      style : 'normal',
-      bevelThickness : 2,
-      // bevelSize : 4,
-      bevelSize : 1,
-      bevelSegments : 3,
-      bevelEnabled : true,
-      curveSegments : 12,
-      steps : 1
-    }),
-    // new THREE.MeshPhongMaterial({
-    new THREE.MeshBasicMaterial({
-      color : 0xffffff
-      // color : cfg.bgskycolor
-    })
-    // new THREE.MeshBasicMaterial({
-    // map : readyaim.three.getfilterimgtexture(cfg.bgskyimg),
-    //   transparent : false,
-    //   side : THREE.FrontSide,
-    // overdraw : true
-    // wireframe : true,
-    //   color : cfg.bgskycolor
-    // }));
-  );
-}
+// function getTextSprite (text, font) {
+//   return new THREE.Mesh(
+//     new THREE.TextGeometry(String(text), {
+//       size : 40,
+//       height : 1,
+//       weight : 'normal',
+//       font,
+//       style : 'normal',
+//       bevelThickness : 2,
+//       bevelSize : 1,
+//       bevelSegments : 3,
+//       bevelEnabled : true,
+//       curveSegments : 12,
+//       steps : 1
+//     }),
+//     new THREE.MeshBasicMaterial({
+//       color : 0xffffff
+//     })
+//   );
+// }
 
 // function getNumRandomSprite ( cfg ) {
 //   return getTextSprite(cfg, Math.floor(Math.random() * 10));
@@ -189,7 +168,7 @@ function getscene (cfg, canvaselem) {
 
 function getfloormesh () {
   let geometry = new THREE.PlaneGeometry(1000, 1000, 1, 1),
-      material = new THREE.MeshBasicMaterial({ color : 0x0000ff }),
+      material = new THREE.MeshBasicMaterial({ color : 0x000000 }),
       floor = new THREE.Mesh(geometry, material);
 
   floor.material.side = THREE.DoubleSide;
@@ -208,14 +187,49 @@ function getpanelmesh (cfg) {
   );
 }
 
+// function alongVertex (cfg, font, canvasscene, textSprite) {
+//   (new THREE.Mesh(
+//     new THREE.SphereGeometry(380, 20, 20))).geometry.vertices
+//     .filter(({ x, y }) => (
+//       (x > 350 || x < -350) &&
+//         y < 60 && y > -60
+//     ))
+//     .map(({ x, y, z }) => {
+//       let sprite = getTextSprite('3', font);
+//
+//       textSprite.position.set(x, y, z);
+//       textSprite.lookAt(canvasscene.glscene.position);
+//
+//       canvasscene.glscene.add(sprite);
+//     });
+// }
 
-(function start (cfg) {
+// function countadd (value, font, scene) {
+//   let textSprite = getTextSprite(value, font);
+//   textSprite.geometry.computeBoundingBox();
+//
+//   const geom = textSprite.geometry,
+//         width = geom.boundingBox.max.x - geom.boundingBox.min.x;
+//
+//   // textSprite.position.set(-300, 0, 0);
+//   // textSprite.position.set(-300, 0, -sphere.radius);
+//   textSprite.position.set(-300, -width / 2, width / 2);
+//   textSprite.lookAt(scene.position);
+//
+//   scene.add(textSprite);
+//
+//   return textSprite;
+// }
+
+setup(function start (cfg) {
   let rootelem = getrootelem(),
       windowwh = getwindowwh(),
-      // windowhalfwh = getwindowhalfwh(),
       pwwindow = pixelweight(window),
+      // countnum,
       panelmesharr,
+      // countsprite,
       floormesh = getfloormesh(),
+      fuseduration = 30,
       canvasscene = getscene({
         xcolor : cfg.trackballxcolor,
         ycolor : cfg.trackballycolor,
@@ -243,77 +257,6 @@ function getpanelmesh (cfg) {
 
   Object.assign(floormesh.position, { x : 0, y : -300, z : 0 });
 
-  canvasscene.glscene.add(floormesh);
-
-  // canvasscene.skymesh.geometry.vertices.map(({ x, y, z }) => {
-
-  const loader = new THREE.FontLoader();
-  loader.load(
-    // resource URL
-    './font/helvetiker_regular.typeface.json',
-    // 'fonts/helvetiker_bold.typeface.json',
-    // Function when resource is loaded
-    font => {
-      // do something with the font
-      // scene.add( font );
-
-      let sprite = getTextSprite(cfg, '3', font);
-
-      // { x : -300, y : 0, z : 100 }
-      // console.log('y', x, y, z);
-      // console.log('sprite', sprite);
-
-      // let sphere = sprite.boundingSphere;
-
-
-      // sprite.geometry.computeBoundingBox();
-      sprite.geometry.computeBoundingBox();
-
-      const geom = sprite.geometry,
-            width = geom.boundingBox.max.x - geom.boundingBox.min.x;
-
-      // console.log( width );
-      /*
-      //sprite.position.set(-300, 0, 0);
-      //sprite.position.set(-300, 0, -sphere.radius);
-      */
-      sprite.position.set(-300, -width / 2, width / 2);
-      sprite.lookAt(canvasscene.glscene.position);
-
-      canvasscene.glscene.add(sprite);
-      /*
-      (new THREE.Mesh(
-        new THREE.SphereGeometry(380, 20, 20))).geometry.vertices
-        .filter(({ x, y, z }) => (
-          console.log('x', z),
-          // console.log('y', y),
-          (x > 350 || x < -350) &&
-          y < 60 && y > -60
-        ))
-        .map(({ x, y, z }) => {
-          let sprite = getTextSprite(cfg, '3', font);
-
-          console.log('y', x, y, z);
-          sprite.position.set(x, y, z);
-          sprite.lookAt(canvasscene.glscene.position);
-
-          canvasscene.glscene.add(sprite);
-        });
-        */
-    });
-
-
-  // canvasscene.skymesh.geometry.vertices
-  //   .filter(({ y }) => y < 5 && y > -5)
-  //   .map(({ x, y, z }) => {
-  //    let sprite = getTextSprite(cfg, '');
-  //
-  //    console.log('y', x, y, z);
-  //    sprite.position.set(x, y, z);
-  //
-  //    canvasscene.glscene.add(sprite);
-  // });
-
   canvasscene.glscene.add(
     readyaim.three.getscaleimgsprite({
       imgsrc : './img/square-crosshair-empty.png',
@@ -321,7 +264,6 @@ function getpanelmesh (cfg) {
       scale : [ 4, 4 ]
     }));
 
-  // canvasscene.glscene = readyaim({
   canvasscene.aimstate = readyaim(canvasscene.camera, {
     proximity : false,
     clickevents : true,
@@ -346,7 +288,7 @@ function getpanelmesh (cfg) {
     },
     fuse : {
       visible : true,
-      duration : 2.5,
+      duration : fuseduration,
       color : 0xffffff,
       innerRadius : 0.045,
       outerRadius : 0.06,
@@ -358,15 +300,13 @@ function getpanelmesh (cfg) {
   });
 
   panelmesharr.map(panelmesh => (
-    canvasscene.aimstate = readyaim.addmesh(canvasscene.aimstate, panelmesh, cfg.fusetime, {
-      reticle : {
-        // Override global reticle
+    canvasscene.aimstate = readyaim.addmesh(canvasscene.aimstate, panelmesh, {
+      reticle : { // Override global reticle
         hoverColor : 0xffffff
       },
-      fuse : {
-        // Override global fuse
+      fuse : { // Override global fuse
         visible : true,
-        duration : cfg.fuseTime,
+        duration : fuseduration,
         color : 0xffffff
       }
     })));
@@ -376,16 +316,28 @@ function getpanelmesh (cfg) {
     oneventfn : (cfg, etype, mesh) => {
       if (etype === readyaim.events.GAZELONG) {
         mesh.material.emissive.setHex(0x0000cc);
+
+        // if (countsprite)
+        //   canvasscene.glscene.remove(countsprite);
+
         console.log('[...] called: onGazeLong');
       }
 
       if (etype === readyaim.events.GAZEOUT) {
         mesh.material.emissive.setHex(0xcc0000);
+
+        // if (countsprite)
+        //   canvasscene.glscene.remove(countsprite);
+
         console.log('[...] called: onGazeOut');
       }
 
       if (etype === readyaim.events.GAZEOVER) {
         mesh.material.emissive.setHex(0xffcc00);
+
+        // countnum = String(fuseduration);
+        // countsprite = countadd(String(countnum), font, canvasscene.glscene);
+
         console.log('[...] called: onGazeOver');
       }
 
@@ -394,6 +346,18 @@ function getpanelmesh (cfg) {
         console.log('[...] called: onGazeClick');
       }
     }
+    // ongazefn : (cfg, intersectts, mesh) => {
+    //   let delta = (Date.now() - intersectts) / 1000,
+    //       nextcount = Math.ceil(fuseduration - delta);
+    //
+    //   if (nextcount !== countnum) {
+    //     if (countsprite)
+    //       canvasscene.glscene.remove(countsprite);
+    //
+    //     countnum = nextcount;
+    //     countsprite = countadd(String(countnum), font, canvasscene.glscene);
+    //   }
+    // }
   });
 
   rootelem.id = 'id-is-required';
@@ -417,11 +381,14 @@ function getpanelmesh (cfg) {
 
     requestAnimationFrame(animate);
   }());
-}({
+}, {
+  fontpath : './font/helvetiker_regular.typeface.json',
   wh : [ window.innerWidth, window.innerHeight ],
   bgtextcolor : 'rgb(250, 200, 30)',
   bgskycolor : 'rgb(30, 90, 120)',
-  bgskyimg : './img/armenia.jpg',
+  // bgskyimg : './img/armenia.jpg',
+  bgskyimg : './img/retrowave_neon_80_s_background___4k_by_rafael_de_jongh-dbk7ro6.jpg',
+  // bgskyimg : './img/wallhaven-477266.jpg',
   panels : [ {
     color : 'rgb(255, 255, 140)',
     position : { x : -300, y : -150, z : 100 },
@@ -431,4 +398,4 @@ function getpanelmesh (cfg) {
     position : { x : -300, y : -150, z : -100 },
     rotation : { x : 0, y : 0, z : 0 }
   } ]
-}));
+});

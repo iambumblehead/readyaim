@@ -1,5 +1,5 @@
-// Filename: raedyaim.js  
-// Timestamp: 2017.10.20-00:04:41 (last modified)
+// Filename: raedyaim.js
+// Timestamp: 2017.11.11-23:06:59 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
 const THREE = require('three'),
@@ -81,6 +81,7 @@ module.exports = (o => {
     state.fuse = readyaim_fuse.getopts(options.fuse);
     state.fuse.mesh = readyaim_fuse.getfusemesh(state.fuse);
     state.fuse = readyaim_fuse.update(state.fuse, 0);
+
     state.parentContainer.add(state.fuse.mesh);
 
     return state;
@@ -111,6 +112,7 @@ module.exports = (o => {
     // add state for this element
     o.delegator = evdel.addelemstate(o.delegator, elem, state);
 
+    state.ongazefn = fnobj.ongazefn || (() => {});
     state.oneventfn = fnobj.oneventfn || (() => {});
 
     return state;

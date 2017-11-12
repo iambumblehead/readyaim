@@ -1,6 +1,6 @@
-// Filename: readyaim_reticle.js  
-// Timestamp: 2017.10.20-00:06:43 (last modified)
-// Author(s): bumblehead <chris@bumblehead.com>  
+// Filename: readyaim_reticle.js
+// Timestamp: 2017.11.11-23:07:38 (last modified)
+// Author(s): bumblehead <chris@bumblehead.com>
 //
 // one reticle per camera, crosshair or dot
 
@@ -24,7 +24,7 @@ module.exports = (o => {
     x < a ? a : x;
 
   // settings... global cfg
-  // Sets the depth and scale of the reticle - reduces eyestrain and depth issues 
+  // Sets the depth and scale of the reticle - reduces eyestrain and depth issues
   o.setDepthAndScale = function (opts, canvasscene, depth) {
     let crosshair = opts.mesh.parent,
         z = Math.abs(depth || opts.restPoint), // Default to user far setting
@@ -103,7 +103,7 @@ module.exports = (o => {
     // Click
     finopt.vibrateClick = castas.num(opts.clickvibrate, 50);
 
-    // Animation options    
+    // Animation options
     finopt.speed = castas.num(opts.hoverSpeed, 5);
     finopt.moveSpeed = 0;
 
