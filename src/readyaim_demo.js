@@ -229,7 +229,7 @@ setup(function start (cfg) {
       panelmesharr,
       // countsprite,
       floormesh = getfloormesh(),
-      fuseduration = 30,
+      fuseduration = 3,
       canvasscene = getscene({
         xcolor : cfg.trackballxcolor,
         ycolor : cfg.trackballycolor,
@@ -387,7 +387,7 @@ setup(function start (cfg) {
   bgtextcolor : 'rgb(250, 200, 30)',
   bgskycolor : 'rgb(30, 90, 120)',
   // bgskyimg : './img/armenia.jpg',
-  bgskyimg : './img/retrowave_neon_80_s_background___4k_by_rafael_de_jongh-dbk7ro6.jpg',
+  // bgskyimg : './img/retrowave_neon_80_s_background___4k_by_rafael_de_jongh-dbk7ro6.jpg',
   // bgskyimg : './img/wallhaven-477266.jpg',
   panels : [ {
     color : 'rgb(255, 255, 140)',

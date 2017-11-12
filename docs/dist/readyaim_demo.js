@@ -26943,9 +26943,8 @@ module.exports = (o => {
 return module.exports;});
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_002_src_readyaim_demo = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 // Filename: readyaim_demo.js
-// Timestamp: 2017.11.11-23:06:31 (last modified)
+// Timestamp: 2017.11.11-23:10:02 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
-
 
 const THREE = three_0880_build_three,
       touchboom = touchboom_0245_src_touchboom,
@@ -27043,23 +27042,26 @@ function getskymesh(cfg) {
 //  });
 // }
 
-function getTextSprite(text, font) {
-  return new THREE.Mesh(new THREE.TextGeometry(String(text), {
-    size: 40,
-    height: 1,
-    weight: 'normal',
-    font,
-    style: 'normal',
-    bevelThickness: 2,
-    bevelSize: 1,
-    bevelSegments: 3,
-    bevelEnabled: true,
-    curveSegments: 12,
-    steps: 1
-  }), new THREE.MeshBasicMaterial({
-    color: 0xffffff
-  }));
-}
+// function getTextSprite (text, font) {
+//   return new THREE.Mesh(
+//     new THREE.TextGeometry(String(text), {
+//       size : 40,
+//       height : 1,
+//       weight : 'normal',
+//       font,
+//       style : 'normal',
+//       bevelThickness : 2,
+//       bevelSize : 1,
+//       bevelSegments : 3,
+//       bevelEnabled : true,
+//       curveSegments : 12,
+//       steps : 1
+//     }),
+//     new THREE.MeshBasicMaterial({
+//       color : 0xffffff
+//     })
+//   );
+// }
 
 // function getNumRandomSprite ( cfg ) {
 //   return getTextSprite(cfg, Math.floor(Math.random() * 10));
@@ -27101,9 +27103,7 @@ function getscene(cfg, canvaselem) {
 
 function getfloormesh() {
   let geometry = new THREE.PlaneGeometry(1000, 1000, 1, 1),
-
-  //material = new THREE.MeshBasicMaterial({ color : 0x0000ff }),
-  material = new THREE.MeshBasicMaterial({ color: 0x000000 }),
+      material = new THREE.MeshBasicMaterial({ color: 0x000000 }),
       floor = new THREE.Mesh(geometry, material);
 
   floor.material.side = THREE.DoubleSide;
@@ -27119,45 +27119,51 @@ function getpanelmesh(cfg) {
   }));
 }
 
-function alongVertex(cfg, font, canvasscene, textSprite) {
-  new THREE.Mesh(new THREE.SphereGeometry(380, 20, 20)).geometry.vertices.filter(({ x, y, z }) => (x > 350 || x < -350) && y < 60 && y > -60).map(({ x, y, z }) => {
-    let sprite = getTextSprite('3', font);
+// function alongVertex (cfg, font, canvasscene, textSprite) {
+//   (new THREE.Mesh(
+//     new THREE.SphereGeometry(380, 20, 20))).geometry.vertices
+//     .filter(({ x, y }) => (
+//       (x > 350 || x < -350) &&
+//         y < 60 && y > -60
+//     ))
+//     .map(({ x, y, z }) => {
+//       let sprite = getTextSprite('3', font);
+//
+//       textSprite.position.set(x, y, z);
+//       textSprite.lookAt(canvasscene.glscene.position);
+//
+//       canvasscene.glscene.add(sprite);
+//     });
+// }
 
-    textSprite.position.set(x, y, z);
-    textSprite.lookAt(canvasscene.glscene.position);
+// function countadd (value, font, scene) {
+//   let textSprite = getTextSprite(value, font);
+//   textSprite.geometry.computeBoundingBox();
+//
+//   const geom = textSprite.geometry,
+//         width = geom.boundingBox.max.x - geom.boundingBox.min.x;
+//
+//   // textSprite.position.set(-300, 0, 0);
+//   // textSprite.position.set(-300, 0, -sphere.radius);
+//   textSprite.position.set(-300, -width / 2, width / 2);
+//   textSprite.lookAt(scene.position);
+//
+//   scene.add(textSprite);
+//
+//   return textSprite;
+// }
 
-    canvasscene.glscene.add(sprite);
-  });
-}
-
-function countadd(value, font, scene) {
-  let textSprite = getTextSprite(value, font);
-  textSprite.geometry.computeBoundingBox();
-
-  const geom = textSprite.geometry,
-        width = geom.boundingBox.max.x - geom.boundingBox.min.x;
-
-  // textSprite.position.set(-300, 0, 0);
-  // textSprite.position.set(-300, 0, -sphere.radius);
-  textSprite.position.set(-300, -width / 2, width / 2);
-  textSprite.lookAt(scene.position);
-
-  scene.add(textSprite);
-
-  return textSprite;
-}
-
-//(function start (cfg) {
 setup(function start(cfg) {
-  let font = cfg.font,
-      rootelem = getrootelem(),
+  let rootelem = getrootelem(),
       windowwh = getwindowwh(),
       pwwindow = pixelweight(window),
-      countnum,
-      panelmesharr,
-      countsprite,
-      floormesh = getfloormesh(),
-      fuseduration = 30,
+
+  // countnum,
+  panelmesharr,
+
+  // countsprite,
+  floormesh = getfloormesh(),
+      fuseduration = 3,
       canvasscene = getscene({
     xcolor: cfg.trackballxcolor,
     ycolor: cfg.trackballycolor,
@@ -27271,19 +27277,19 @@ setup(function start(cfg) {
         mesh.material.emissive.setHex(0x0000cc);
         console.log('[...] called: onGazeClick');
       }
-    },
-    ongazefn: (cfg, intersectts, mesh) => {
-      let delta = (Date.now() - intersectts) / 1000,
-          nextcount = Math.ceil(fuseduration - delta);
-
-      // if (nextcount !== countnum) {
-      //   if (countsprite)
-      //     canvasscene.glscene.remove(countsprite);
-      //  
-      //   countnum = nextcount;
-      //   countsprite = countadd(String(countnum), font, canvasscene.glscene);        
-      // }
     }
+    // ongazefn : (cfg, intersectts, mesh) => {
+    //   let delta = (Date.now() - intersectts) / 1000,
+    //       nextcount = Math.ceil(fuseduration - delta);
+    //
+    //   if (nextcount !== countnum) {
+    //     if (countsprite)
+    //       canvasscene.glscene.remove(countsprite);
+    //
+    //     countnum = nextcount;
+    //     countsprite = countadd(String(countnum), font, canvasscene.glscene);
+    //   }
+    // }
   });
 
   rootelem.id = 'id-is-required';
@@ -27310,7 +27316,7 @@ setup(function start(cfg) {
   bgtextcolor: 'rgb(250, 200, 30)',
   bgskycolor: 'rgb(30, 90, 120)',
   // bgskyimg : './img/armenia.jpg',
-  bgskyimg: './img/retrowave_neon_80_s_background___4k_by_rafael_de_jongh-dbk7ro6.jpg',
+  // bgskyimg : './img/retrowave_neon_80_s_background___4k_by_rafael_de_jongh-dbk7ro6.jpg',
   // bgskyimg : './img/wallhaven-477266.jpg',
   panels: [{
     color: 'rgb(255, 255, 140)',
