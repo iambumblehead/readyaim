@@ -128,11 +128,12 @@ module.exports = (o => {
       timeDone : false
     })), 0);
 
-  o.over = (fuseopts, duration, visible) => {
+  o.over = (fuseopts, duration, visible, color) => {
     fuseopts.duration = duration || fuseopts.globalDuration;
     fuseopts.active = true;
     fuseopts = o.update(fuseopts, 0);
     fuseopts.mesh.visible = visible || fuseopts.visible;
+    fuseopts.mesh.material.color.set(color);
 
     return fuseopts;
   };

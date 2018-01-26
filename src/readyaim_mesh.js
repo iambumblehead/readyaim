@@ -8,8 +8,8 @@ const THREE = require('three'),
 module.exports = (o => {
   o.getoptsfuse = opts => ({
     duration : castas.num(opts.duration, 1.5),
-    color : castas.num(opts.color, 0xffffff),
-    visible : castas.bool(opts.visible, false),
+    color : new THREE.Color(opts.color || 0xffffff),
+    visible : castas.bool(opts.visible, true),
     clickCancel : castas.bool(opts.clickCancel, false)
   });
 
@@ -22,7 +22,7 @@ module.exports = (o => {
     uuid : mesh.uuid,
     gazeable : true,
     fuse : o.getoptsfuse(opts.fuse || {}),
-    reticle : o.getoptsfuse(opts.reticle || {})
+    reticle : o.getoptsreticle(opts.reticle || {})
   });
 
   o.isgazeable = targetdata =>

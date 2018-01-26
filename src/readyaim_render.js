@@ -63,7 +63,7 @@ module.exports = (o => {
 
     // at reticle.update
     reticle.colorTo = meshData.reticle.hoverColor || reticle.globalColorTo;
-    state.fuse = readyaim_fuse.over(state.fuse, meshData.fuse.duration, meshData.fuse.visible);
+    state.fuse = readyaim_fuse.over(state.fuse, meshData.fuse.duration, meshData.fuse.visible, meshData.fuse.color);
 
     if (meshData.fuseColor) {
       readyaim_three.setmeshcolor(fuse.mesh, meshData.fuse.color);
