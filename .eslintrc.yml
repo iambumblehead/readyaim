@@ -18,6 +18,9 @@ globals:
   expect: false
   it: false
 rules:
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies: true
   global-require: off
   no-sequences: off
   strict:

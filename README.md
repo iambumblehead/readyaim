@@ -25,7 +25,7 @@ rootelem.id = 'id-is-required';
 //
 // add a crosshair image (if wanted)
 canvasscene.glscene.add(
-  readyaim.three.getscaleimgsprite({
+  readyaim.three.getscaleimgsprite(THREE, {
     imgsrc : './img/square-crosshair-empty.png',
     color : 0xffffff,
     scale : [ 4, 4 ]
@@ -34,7 +34,7 @@ canvasscene.glscene.add(
 //
 // 'global' state is defined and mutated on a state object (aimstate)
 //
-aimstate = readyaim(camera, {
+aimstate = readyaim(THREE, camera, {
   proximity : false,
   clickevents : true,
 
@@ -72,7 +72,7 @@ aimstate = readyaim(camera, {
 //
 // mesh objects are added to the aim state with an option configuration object and properties that override those defined in the global state
 mesharr.map(mesh => (
-  canvasscene.aimstate = readyaim.addmesh(canvasscene.aimstate, mesh, {
+  canvasscene.aimstate = readyaim.addmesh(THREE, canvasscene.aimstate, mesh, {
     reticle : { // Override global reticle
       hoverColor : 0xffffff
     },

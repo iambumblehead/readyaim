@@ -2,8 +2,8 @@
 // Timestamp: 2017.11.11-23:06:59 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-const THREE = require('three'),
-      evdel = require('evdelegate'),
+// const THREE = require('three'),
+const evdel = require('evdelegate'),
       castas = require('castas'),
 
       readyaim_reticle = require('./readyaim_reticle'),
@@ -14,15 +14,15 @@ const THREE = require('three'),
       readyaim_fuse = require('./readyaim_fuse');
 
 module.exports = (o => {
-  o = (camera, opts = {}) =>
-    o.init(camera, opts);
+  o = (THREE, camera, opts = {}) =>
+    o.init(THREE, camera, opts);
 
   o.three = readyaim_three;
   o.update = readyaim_render.update;
   o.events = readyaim_events;
 
-  o.addmesh = (state, mesh, opts = {}) => {
-    let targetdata = readyaim_mesh.createtargetdata(mesh, opts);
+  o.addmesh = (THREE, state, mesh, opts = {}) => {
+    let targetdata = readyaim_mesh.createtargetdata(THREE, mesh, opts);
 
     state.targets[targetdata.uuid] = targetdata;
     state.collisionList.push(mesh);
@@ -37,11 +37,13 @@ module.exports = (o => {
     return state;
   };
 
-  o.init = (camera, options = {}) => {
+  o.init = (THREE, camera, options = {}) => {
     let state = {};
 
-    if (!readyaim_three.iscamera(camera)) {
-      console.error('[!!!] readyaim: invalid camera');
+    if (!readyaim_three.iscamera(THREE, camera)) {
+      // window.readyaim_camera = camera;
+      // window.readyaim_three = THREE;
+      console.error('[!!!] readyaim: invalid camera', { camera });
       return null;
     }
 
@@ -73,13 +75,13 @@ module.exports = (o => {
 
     state.clock = new THREE.Clock(true);
 
-    state.reticle = readyaim_reticle.getopts(options.reticle, state);
-    state.reticle.mesh = readyaim_reticle.getreticlemesh(state.reticle);
+    state.reticle = readyaim_reticle.getopts(THREE, options.reticle, state);
+    state.reticle.mesh = readyaim_reticle.getreticlemesh(THREE, state.reticle);
     state.parentContainer.add(state.reticle.mesh);
     state.reticle = readyaim_reticle.setDepthAndScale(state.reticle, state);
 
-    state.fuse = readyaim_fuse.getopts(options.fuse);
-    state.fuse.mesh = readyaim_fuse.getfusemesh(state.fuse);
+    state.fuse = readyaim_fuse.getopts(THREE, options.fuse);
+    state.fuse.mesh = readyaim_fuse.getfusemesh(THREE, state.fuse);
     state.fuse = readyaim_fuse.update(state.fuse, 0);
 
     state.parentContainer.add(state.fuse.mesh);

@@ -3,13 +3,15 @@
 // Author(s): bumblehead <chris@bumblehead.com>
 
 require('scroungejs').build({
-  iscompressed : false,
-  isconcatenated : true,
+  iscompress : false,
+  isconcat : true,
   inputpath : './src/',
   outputpath : './docs/dist/',
   basepagein : './docs/index.tpl.html',
   basepage : './docs/index.html',
-    // publicpath : '/dist',
+  iswatch : false,
+
+  // publicpath : '/dist',
   publicpath : '/readyaim/dist',
   // publicpath : process.env.NODE_ENV === 'production'
   //   ? '/readyaim/dist'
@@ -17,10 +19,10 @@ require('scroungejs').build({
   treearr : [
     'readyaim.js',
     'readyaim_demo.js'
-  ],
-  babelpluginarr : [
-    'transform-object-rest-spread'
   ]
+  // babelpluginarr : [
+  //   'transform-object-rest-spread'
+  // ]
 }, err => {
   console.log(err || 'done');
 });

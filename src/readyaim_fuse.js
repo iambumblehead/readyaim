@@ -6,11 +6,10 @@
 //
 // ◎ ◉
 
-const THREE = require('three'),
-      castas = require('castas');
+const castas = require('castas');
 
 module.exports = (o => {
-  o.getringgeometry = opt =>
+  o.getringgeometry = (THREE, opt) =>
     new THREE.RingGeometry(
       opt.innerRadius,
       opt.outerRadius,
@@ -19,20 +18,20 @@ module.exports = (o => {
       opt.thetaStart,
       Math.PI / 2);
 
-  o.getringmesh = opt =>
-    new THREE.Mesh(o.getringgeometry(opt), new THREE.MeshBasicMaterial({
+  o.getringmesh = (THREE, opt) =>
+    new THREE.Mesh(o.getringgeometry(THREE, opt), new THREE.MeshBasicMaterial({
       color : opt.color,
       side : THREE.BackSide,
       fog : false
     }));
 
-  o.getfusemesh = (opt, mesh = o.getringmesh(opt)) => (
+  o.getfusemesh = (THREE, opt, mesh = o.getringmesh(THREE, opt)) => (
     mesh.visible = opt.visible,
     mesh.position.z = 0.0001, // at front of reticle
     mesh.rotation.y = 180 * (Math.PI / 180), // make clockwise
     mesh);
 
-  o.getopts = (opts = {}) => {
+  o.getopts = (THREE, opts = {}) => {
     let finopt = {};
 
     finopt.visible = castas.bool(opts.visible, true);

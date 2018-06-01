@@ -4,14 +4,13 @@
 //
 // one reticle per camera, crosshair or dot
 
-const THREE = require('three'),
-      castas = require('castas'),
+const castas = require('castas'),
 
       readyaim_three = require('./readyaim_three');
 
 module.exports = (o => {
-  o.getreticlesprite = (cfg, scene, camera) => {
-    let sprite = readyaim_three.getimgsprite(cfg);
+  o.getreticlesprite = (THREE, cfg, scene, camera) => {
+    let sprite = readyaim_three.getimgsprite(THREE, cfg);
 
     sprite.position.set(0, 0, -10);
 
@@ -44,13 +43,13 @@ module.exports = (o => {
     return opts;
   };
 
-  o.getreticlegeometry = opts => {
-    const geometry = o.getringgeometry({
+  o.getreticlegeometry = (THREE, opts) => {
+    const geometry = o.getringgeometry(THREE, {
       innerRadius : opts.innerRadius,
       outerRadius : opts.outerRadius
     });
 
-    let geometryScale = o.getringgeometry({
+    let geometryScale = o.getringgeometry(THREE, {
       innerRadius : opts.innerRadiusTo,
       outerRadius : opts.outerRadiusTo
     });
@@ -64,15 +63,15 @@ module.exports = (o => {
     return geometry;
   };
 
-  o.getreticlemesh = opts =>
-    new THREE.Mesh(o.getreticlegeometry(opts), new THREE.MeshBasicMaterial({
+  o.getreticlemesh = (THREE, opts) =>
+    new THREE.Mesh(o.getreticlegeometry(THREE, opts), new THREE.MeshBasicMaterial({
       color : opts.color,
       morphTargets : true,
       fog : false,
       visible : opts.visible
     }));
 
-  o.getringgeometry = opt =>
+  o.getringgeometry = (THREE, opt) =>
     new THREE.RingGeometry(
       opt.innerRadius,
       opt.outerRadius,
@@ -81,7 +80,7 @@ module.exports = (o => {
       opt.thetaStart0,
       Math.PI * 2); // 90 degree
 
-  o.getopts = (opts = {}, canvasscene) => {
+  o.getopts = (THREE, opts = {}, canvasscene) => {
     let finopt = {};
 
     finopt.active = true;

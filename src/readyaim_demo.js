@@ -88,7 +88,7 @@ function getskymesh (cfg) {
     (new THREE.SphereGeometry(600, 30, 30))
       .applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1)),
     new THREE.MeshBasicMaterial({
-      map : readyaim.three.getfilterimgtexture(cfg.bgskyimg),
+      map : readyaim.three.getfilterimgtexture(THREE, cfg.bgskyimg),
       transparent : false,
       side : THREE.FrontSide,
       overdraw : true
@@ -258,13 +258,13 @@ setup(function start (cfg) {
   Object.assign(floormesh.position, { x : 0, y : -300, z : 0 });
 
   canvasscene.glscene.add(
-    readyaim.three.getscaleimgsprite({
+    readyaim.three.getscaleimgsprite(THREE, {
       imgsrc : './img/square-crosshair-empty.png',
       color : 0xffffff,
       scale : [ 4, 4 ]
     }));
 
-  canvasscene.aimstate = readyaim(canvasscene.camera, {
+  canvasscene.aimstate = readyaim(THREE, canvasscene.camera, {
     proximity : false,
     clickevents : true,
 
@@ -300,7 +300,7 @@ setup(function start (cfg) {
   });
 
   panelmesharr.map(panelmesh => (
-    canvasscene.aimstate = readyaim.addmesh(canvasscene.aimstate, panelmesh, {
+    canvasscene.aimstate = readyaim.addmesh(THREE, canvasscene.aimstate, panelmesh, {
       reticle : { // Override global reticle
         hoverColor : 0xffffff
       },
