@@ -49,17 +49,16 @@ module.exports = (o => {
       outerRadius : opts.outerRadius
     });
 
-    let geometryScale = o.getringgeometry(THREE, {
+    let position = o.getringgeometry(THREE, {
       innerRadius : opts.innerRadiusTo,
       outerRadius : opts.outerRadiusTo
-    });
+    }).attributes.position.clone();
 
     // Add Morph Targets for scale animation
-    geometry.morphTargets.push({
-      name : 'target1',
-      vertices : geometryScale.vertices
-    });
+    for (let j = 0, jl = position.count; j < jl; j++)
+      position.setXYZ(j, position.getX(j), position.getY(j), position.getZ(j));
 
+    geometry.morphAttributes.position = [ position ];
     return geometry;
   };
 
@@ -72,7 +71,7 @@ module.exports = (o => {
     }));
 
   o.getringgeometry = (THREE, opt) =>
-    new THREE.RingGeometry(
+    new THREE.RingBufferGeometry(
       opt.innerRadius,
       opt.outerRadius,
       opt.thetaSegments || 32,

@@ -232,7 +232,7 @@ var castas = module.exports = function (o) {
 }({});
 return module.exports;});
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_005_src_readyaim_three = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_006_src_readyaim_three = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 "use strict";
 
 // Filename: readyaim_three.js
@@ -271,7 +271,7 @@ module.exports = function (o) {
 }({});
 return module.exports;});
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_005_src_readyaim_reticle = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_006_src_readyaim_reticle = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 'use strict';
 
 // Filename: readyaim_reticle.js
@@ -281,7 +281,7 @@ return module.exports;});
 // one reticle per camera, crosshair or dot
 
 var castas = castas_003_castas,
-    readyaim_three = readyaim_005_src_readyaim_three;
+    readyaim_three = readyaim_006_src_readyaim_three;
 
 module.exports = function (o) {
   o.getreticlesprite = function (THREE, cfg, scene, camera) {
@@ -327,17 +327,15 @@ module.exports = function (o) {
       outerRadius: opts.outerRadius
     });
 
-    var geometryScale = o.getringgeometry(THREE, {
+    var position = o.getringgeometry(THREE, {
       innerRadius: opts.innerRadiusTo,
       outerRadius: opts.outerRadiusTo
-    });
+    }).attributes.position.clone();
 
     // Add Morph Targets for scale animation
-    geometry.morphTargets.push({
-      name: 'target1',
-      vertices: geometryScale.vertices
-    });
-
+    for (var j = 0, jl = position.count; j < jl; j++) {
+      position.setXYZ(j, position.getX(j), position.getY(j), position.getZ(j));
+    }geometry.morphAttributes.position = [position];
     return geometry;
   };
 
@@ -351,7 +349,7 @@ module.exports = function (o) {
   };
 
   o.getringgeometry = function (THREE, opt) {
-    return new THREE.RingGeometry(opt.innerRadius, opt.outerRadius, opt.thetaSegments || 32, opt.phiSegments || 3, opt.thetaStart0, Math.PI * 2);
+    return new THREE.RingBufferGeometry(opt.innerRadius, opt.outerRadius, opt.thetaSegments || 32, opt.phiSegments || 3, opt.thetaStart0, Math.PI * 2);
   }; // 90 degree
 
   o.getopts = function (THREE) {
@@ -418,7 +416,7 @@ module.exports = function (o) {
 }({});
 return module.exports;});
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_005_src_readyaim_events = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_006_src_readyaim_events = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 'use strict';
 
 // Filename: readyaim_events.js
@@ -443,7 +441,7 @@ module.exports = function (o) {
 }({});
 return module.exports;});
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_005_src_readyaim_mesh = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_006_src_readyaim_mesh = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 'use strict';
 
 // Filename: readyaim_mesh.js
@@ -485,7 +483,7 @@ module.exports = function (o) {
 }({});
 return module.exports;});
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_005_src_readyaim_fuse = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_006_src_readyaim_fuse = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 'use strict';
 
 // Filename: readyaim_fuse.js
@@ -640,18 +638,18 @@ module.exports = function (o) {
 }({});
 return module.exports;});
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_005_src_readyaim_render = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_006_src_readyaim_render = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 'use strict';
 
 // Filename: readyaim_render.js
 // Timestamp: 2017.11.11-23:07:19 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-var readyaim_reticle = readyaim_005_src_readyaim_reticle,
-    readyaim_events = readyaim_005_src_readyaim_events,
-    readyaim_three = readyaim_005_src_readyaim_three,
-    readyaim_mesh = readyaim_005_src_readyaim_mesh,
-    readyaim_fuse = readyaim_005_src_readyaim_fuse;
+var readyaim_reticle = readyaim_006_src_readyaim_reticle,
+    readyaim_events = readyaim_006_src_readyaim_events,
+    readyaim_three = readyaim_006_src_readyaim_three,
+    readyaim_mesh = readyaim_006_src_readyaim_mesh,
+    readyaim_fuse = readyaim_006_src_readyaim_fuse;
 
 module.exports = function (_o) {
   _o = function o(state) {
@@ -838,7 +836,7 @@ module.exports = function (_o) {
 }();
 return module.exports;});
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_005_src_readyaim = f()}})(function(){var define,module,exports;module={exports:(exports={})};
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.readyaim_006_src_readyaim = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 'use strict';
 
 // Filename: raedyaim.js
@@ -848,12 +846,12 @@ return module.exports;});
 // const THREE = require('three'),
 var evdel = evdelegate_003_evdelegate,
     castas = castas_003_castas,
-    readyaim_reticle = readyaim_005_src_readyaim_reticle,
-    readyaim_render = readyaim_005_src_readyaim_render,
-    readyaim_events = readyaim_005_src_readyaim_events,
-    readyaim_three = readyaim_005_src_readyaim_three,
-    readyaim_mesh = readyaim_005_src_readyaim_mesh,
-    readyaim_fuse = readyaim_005_src_readyaim_fuse;
+    readyaim_reticle = readyaim_006_src_readyaim_reticle,
+    readyaim_render = readyaim_006_src_readyaim_render,
+    readyaim_events = readyaim_006_src_readyaim_events,
+    readyaim_three = readyaim_006_src_readyaim_three,
+    readyaim_mesh = readyaim_006_src_readyaim_mesh,
+    readyaim_fuse = readyaim_006_src_readyaim_fuse;
 
 module.exports = function (_o) {
   _o = function o(THREE, camera) {
@@ -891,8 +889,8 @@ module.exports = function (_o) {
     var state = {};
 
     if (!readyaim_three.iscamera(THREE, camera)) {
-      window.readyaim_camera = camera;
-      window.readyaim_three = THREE;
+      // window.readyaim_camera = camera;
+      // window.readyaim_three = THREE;
       console.error('[!!!] readyaim: invalid camera', { camera: camera });
       return null;
     }
@@ -939,7 +937,6 @@ module.exports = function (_o) {
 
   // define dispatcher function, and enable touch/click
   _o.attach = function (state, elem, fnobj) {
-
     if (!_o.delegator) {
       _o.delegator = evdel.create();
 

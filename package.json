@@ -1,7 +1,7 @@
 {
   "name": "readyaim",
   "main": "docs/dist/readyaim",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "readmeFilename": "README.md",
   "license": "MIT",
   "description": "readyaim provides an aiming mechanism using a THREE.js camera",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "three-text2d": "^0.3.4",
-    "three": "^0.93.0",
+    "three": "^0.102.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "scroungejs": "^1.4.7",
     "array-flatten": "^2.1.1",
