@@ -8,6 +8,10 @@
 
 import castas from 'castas'
 
+import {
+  Vector3 as THREEVector3
+} from 'three'
+
 export default (o => {
   o.getringgeometry = (THREE, opt) =>
     new THREE.RingGeometry(
@@ -83,17 +87,27 @@ export default (o => {
         hypotenuse = Number(opts.innerRadius),
         radiusstep = (opts.outerRadius - hypotenuse) / opts.phiSegments;
 
-    ringgeometry.vertices.map((vertex, i) => {
-      let segmenttheta = i % (thetaSegments + 1),
+    const positionAttribute = ringgeometry.getAttribute('position');
+    const localVertex = new THREEVector3();
+    // const globalVertex = new THREE.Vector3();
+
+    for (let vertexIndex = 0; vertexIndex < positionAttribute.count; vertexIndex ++) {
+    
+      // console.log(ringgeometry, { positionAttribute })
+	    localVertex.fromBufferAttribute(positionAttribute, vertexIndex);
+
+      // ringgeometry.vertices.map((vertex, i) => {
+      let segmenttheta = vertexIndex % (thetaSegments + 1),
           segmentpercent = segmenttheta / thetaSegments;
 
-      if (i && segmenttheta === 0)
+      if (vertexIndex && segmenttheta === 0)
         hypotenuse += radiusstep; // longer, each time around
 
-      vertex = Object.assign(vertex, o.getvertex(hypotenuse, (
+      Object.assign(localVertex, o.getvertex(hypotenuse, (
         thetaStart + thetaEnd * segmentpercent // segment angle
       )));
-    });
+    // });
+    }
 
     ringgeometry.verticesNeedUpdate = true;
 

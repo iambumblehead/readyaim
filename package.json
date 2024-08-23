@@ -26,9 +26,9 @@
     "touchboom": "^0.2.51"
   },
   "devDependencies": {
+    "esbuild": "^0.23.1",
     "three-text2d": "^0.6.0",
     "three": "^0.167.1",
-    "scroungejs": "^1.4.7",
     "array-flatten": "^3.0.0",
     "express": "^4.16.2",
     "eslint": "^9.9.0"
