@@ -13,6 +13,8 @@ export default [
       ecmaVersion: 2022,
       sourceType: "module",
       globals: {
+        requestAnimationFrame: true,
+        navigator: true,
         console: true,
         document: true,
         setTimeout: true,

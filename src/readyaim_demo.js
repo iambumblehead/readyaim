@@ -237,7 +237,7 @@ function getpanelmesh (cfg) {
 //   return textSprite;
 // }
 
-setup(function start (cfg) {
+setup(cfg => {
   let rootelem = getrootelem(),
       windowwh = getwindowwh(),
       pwwindow = pixelweight(window),
@@ -403,9 +403,6 @@ setup(function start (cfg) {
   wh : [ window.innerWidth, window.innerHeight ],
   bgtextcolor : 'rgb(250, 200, 30)',
   bgskycolor : 'rgb(30, 90, 120)',
-  // bgskyimg : './img/armenia.jpg',
-  // bgskyimg : './img/retrowave_neon_80_s_background___4k_by_rafael_de_jongh-dbk7ro6.jpg',
-  // bgskyimg : './img/wallhaven-477266.jpg',
   panels : [ {
     color : 'rgb(255, 255, 140)',
     position : { x : -300, y : -150, z : 100 },
