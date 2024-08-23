@@ -3856,4 +3856,3 @@ three/build/three.module.js:
    * SPDX-License-Identifier: MIT
    *)
 */
-//# sourceMappingURL=readyaim_demo.js.map

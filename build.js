@@ -2,36 +2,6 @@
 // Timestamp: 2017.10.14-13:33:55 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-/*
-import scroungejs from 'scroungejs'
-
-scroungejs({
-  iscompress : false,
-  // isconcat : true,
-  isconcat : false,
-  inputpath : './src/',
-  outputpath : './docs/dist/',
-  basepagein : './docs/index.tpl.html',
-  basepage : './docs/index.html',
-  iswatch : false,
-
-  // publicpath : '/dist',
-  publicpath : '/readyaim/dist',
-  // publicpath : process.env.NODE_ENV === 'production'
-  //   ? '/readyaim/dist'
-  //   : '/dist',
-  treearr : [
-    'readyaim.js',
-    'readyaim_demo.js'
-  ]
-  // babelpluginarr : [
-  //   'transform-object-rest-spread'
-  // ]
-}, err => {
-  console.log(err || 'done');
-});
- */
-
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import esbuild from 'esbuild'
@@ -49,7 +19,7 @@ const esbuildOpts = {
   },
   // external: ['*.png', '/images/*'],
   format: 'esm',
-  sourcemap: 'linked',
+  // sourcemap: 'linked',
   platform: 'browser',
   metafile: true,
   outdir: './docs/dist/',
