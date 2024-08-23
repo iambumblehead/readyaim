@@ -77,11 +77,17 @@ export default (o => {
 
     state.reticle = readyaim_reticle.getopts(THREE, options.reticle, state);
     state.reticle.mesh = readyaim_reticle.getreticlemesh(THREE, state.reticle);
-    state.parentContainer.add(state.reticle.mesh);
+
+    const reticleParentContainer = new THREE.Object3D();
+    reticleParentContainer.add(state.reticle.mesh);
+    state.parentContainer.add(reticleParentContainer);
     state.reticle = readyaim_reticle.setDepthAndScale(state.reticle, state);
 
     state.fuse = readyaim_fuse.getopts(THREE, options.fuse);
-    state.fuse.mesh = readyaim_fuse.getfusemesh(THREE, state.fuse);
+
+    // state.fuse.thetaStart = 4
+    // state.fuse.mesh = readyaim_fuse.getfusemesh(THREE, state.fuse);
+    state.fuse.mesh = readyaim_fuse.fuseMeshGet(THREE, state.fuse);
     state.fuse = readyaim_fuse.update(state.fuse, 0);
 
     state.parentContainer.add(state.fuse.mesh);
