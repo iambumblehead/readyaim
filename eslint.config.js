@@ -3,8 +3,8 @@ import js from '@eslint/js'
 export default [
   {
     ignores: [
-      "build/*",
-      "build/**"
+      "docs/*",
+      "docs/**"
     ]
   },
   js.configs.recommended,

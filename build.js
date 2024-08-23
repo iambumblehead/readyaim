@@ -2,7 +2,9 @@
 // Timestamp: 2017.10.14-13:33:55 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-require('scroungejs').build({
+import scroungejs from 'scroungejs'
+
+scroungejs({
   iscompress : false,
   isconcat : true,
   inputpath : './src/',

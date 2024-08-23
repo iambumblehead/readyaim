@@ -6,9 +6,9 @@
 //
 // ◎ ◉
 
-const castas = require('castas');
+import castas from 'castas'
 
-module.exports = (o => {
+export default (o => {
   o.getringgeometry = (THREE, opt) =>
     new THREE.RingGeometry(
       opt.innerRadius,

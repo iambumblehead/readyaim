@@ -4,11 +4,11 @@
 //
 // one reticle per camera, crosshair or dot
 
-const castas = require('castas'),
+import castas from 'castas'
 
-      readyaim_three = require('./readyaim_three');
+import readyaim_three from './readyaim_three.js'
 
-module.exports = (o => {
+export default (o => {
   o.getreticlesprite = (THREE, cfg, scene, camera) => {
     let sprite = readyaim_three.getimgsprite(THREE, cfg);
 

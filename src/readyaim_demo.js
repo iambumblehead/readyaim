@@ -2,9 +2,9 @@
 // Timestamp: 2017.11.11-23:10:02 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-const THREE = require('three'),
-      touchboom = require('touchboom'),
-      readyaim = require('./readyaim');
+import THREE from 'three'
+import touchboom from 'touchboom'
+import readyaim from './readyaim.js'
 
 function setup (fn, cfg) {
   const loader = new THREE.FontLoader();

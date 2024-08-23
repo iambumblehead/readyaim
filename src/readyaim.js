@@ -3,17 +3,17 @@
 // Author(s): bumblehead <chris@bumblehead.com>
 
 // const THREE = require('three'),
-const evdel = require('evdelegate'),
-      castas = require('castas'),
+import evdel from 'evdelegate'
+import castas from 'castas'
 
-      readyaim_reticle = require('./readyaim_reticle'),
-      readyaim_render = require('./readyaim_render'),
-      readyaim_events = require('./readyaim_events'),
-      readyaim_three = require('./readyaim_three'),
-      readyaim_mesh = require('./readyaim_mesh'),
-      readyaim_fuse = require('./readyaim_fuse');
+import readyaim_reticle from './readyaim_reticle.js'
+import readyaim_render from './readyaim_render.js'
+import readyaim_events from './readyaim_events.js'
+import readyaim_three from './readyaim_three.js'
+import readyaim_mesh from './readyaim_mesh.js'
+import readyaim_fuse from './readyaim_fuse.js'
 
-module.exports = (o => {
+export default (o => {
   o = (THREE, camera, opts = {}) =>
     o.init(THREE, camera, opts);
 
