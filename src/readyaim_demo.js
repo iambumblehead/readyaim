@@ -101,13 +101,12 @@ function getskymesh (cfg) {
     (geom)
       .applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1)),
     new THREE.MeshBasicMaterial({
-      map : cfg.bgskyimg
-        ? readyaim.three.getfilterimgtexture(THREE, cfg.bgskyimg)
-        : undefined,
+      ...(cfg.bgskyimg ? {
+        map: readyaim.three.getfilterimgtexture(THREE, cfg.bgskyimg)
+      } : {}),
       color: new THREE.Color(0x212121),
       transparent : false,
-      side : THREE.FrontSide,
-      overdraw : true
+      side : THREE.FrontSide
       // wireframe : true,
       // color : cfg.bgskycolor
     }));

@@ -69,7 +69,6 @@ export default (o => {
   o.getreticlemesh = (THREE, opts) =>
     new THREE.Mesh(o.getreticlegeometry(THREE, opts), new THREE.MeshBasicMaterial({
       color : opts.color,
-      morphTargets : true,
       fog : false,
       visible : opts.visible
     }));
