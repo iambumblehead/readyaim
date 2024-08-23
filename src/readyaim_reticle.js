@@ -4,11 +4,15 @@
 //
 // one reticle per camera, crosshair or dot
 
-const castas = require('castas'),
+import {
+  RingGeometry as THREERingGeometry
+} from 'three'
 
-      readyaim_three = require('./readyaim_three');
+import castas from 'castas'
 
-module.exports = (o => {
+import readyaim_three from './readyaim_three.js'
+
+export default (o => {
   o.getreticlesprite = (THREE, cfg, scene, camera) => {
     let sprite = readyaim_three.getimgsprite(THREE, cfg);
 
@@ -70,14 +74,16 @@ module.exports = (o => {
       visible : opts.visible
     }));
 
-  o.getringgeometry = (THREE, opt) =>
-    new THREE.RingBufferGeometry(
+  o.getringgeometry = (THREE, opt) => {
+    // return new THREERingBufferGeometry(
+    return (new THREERingGeometry(
       opt.innerRadius,
       opt.outerRadius,
       opt.thetaSegments || 32,
       opt.phiSegments || 3,
       opt.thetaStart0,
-      Math.PI * 2); // 90 degree
+      Math.PI * 2)); // 90 degree
+  }
 
   o.getopts = (THREE, opts = {}, canvasscene) => {
     let finopt = {};

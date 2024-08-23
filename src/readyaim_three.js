@@ -2,7 +2,7 @@
 // Timestamp: 2017.11.11-23:07:56 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-module.exports = (o => {
+export default (o => {
   o.iscamera = (THREE, camera) =>
     camera instanceof THREE.Camera;
 

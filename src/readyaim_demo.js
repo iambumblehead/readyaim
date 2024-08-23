@@ -2,12 +2,23 @@
 // Timestamp: 2017.11.11-23:10:02 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-const THREE = require('three'),
-      touchboom = require('touchboom'),
-      readyaim = require('./readyaim');
+import * as THREE from 'three'
+
+import {
+  MathUtils,
+  BoxGeometry as THREEBoxGeometry
+} from 'three'
+
+import {
+  FontLoader
+} from 'three/addons/loaders/FontLoader.js'
+
+import touchboom from 'touchboom'
+import readyaim from './readyaim.js'
 
 function setup (fn, cfg) {
-  const loader = new THREE.FontLoader();
+  const loader = new FontLoader()
+
   loader.load(cfg.fontpath, font => {
     cfg.font = font;
 
@@ -84,11 +95,16 @@ function getglrenderer (canvaselem) {
 }
 
 function getskymesh (cfg) {
+  const geom = new THREE.SphereGeometry(600, 30, 30)
+
   return new THREE.Mesh(
-    (new THREE.SphereGeometry(600, 30, 30))
-      .applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1)),
+    (geom)
+      .applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1)),
     new THREE.MeshBasicMaterial({
-      map : readyaim.three.getfilterimgtexture(THREE, cfg.bgskyimg),
+      map : cfg.bgskyimg
+        ? readyaim.three.getfilterimgtexture(THREE, cfg.bgskyimg)
+        : undefined,
+      color: new THREE.Color(0x212121),
       transparent : false,
       side : THREE.FrontSide,
       overdraw : true
@@ -145,7 +161,7 @@ function getscene (cfg, canvaselem) {
   headgroup.add(camera);
   bodygroup.add(headgroup);
   scenegroup.add(bodygroup);
-  scenegroup.rotation.y = -THREE.Math.degToRad(90);
+  scenegroup.rotation.y = -MathUtils.degToRad(90)
 
   glscene.add(scenegroup);
   glscene.add(skymesh);
@@ -179,7 +195,7 @@ function getfloormesh () {
 
 function getpanelmesh (cfg) {
   return new THREE.Mesh(
-    new THREE.CubeGeometry(10, 300, 100),
+    new THREEBoxGeometry(10, 300, 100),
     new THREE.MeshPhongMaterial({
       color : cfg.color,
       emissive : cfg.color
@@ -221,7 +237,7 @@ function getpanelmesh (cfg) {
 //   return textSprite;
 // }
 
-setup(function start (cfg) {
+setup(cfg => {
   let rootelem = getrootelem(),
       windowwh = getwindowwh(),
       pwwindow = pixelweight(window),
@@ -229,19 +245,20 @@ setup(function start (cfg) {
       panelmesharr,
       // countsprite,
       floormesh = getfloormesh(),
-      fuseduration = 3,
-      canvasscene = getscene({
-        xcolor : cfg.trackballxcolor,
-        ycolor : cfg.trackballycolor,
-        zcolor : cfg.trackballzcolor,
-        fgcolor : cfg.trackballfgcolor,
-        bgcolor : cfg.trackballbgcolor,
-        bgskycolor : cfg.bgskycolor,
-        bgskyimg : cfg.bgskyimg
-        // bgtexturecolor : cfg.bgtexturecolor
-      }, appendchild(rootelem, getcanvaselem({
-        wh : windowwh
-      })));
+      fuseduration = 3
+
+  let canvasscene = getscene({
+    xcolor : cfg.trackballxcolor,
+    ycolor : cfg.trackballycolor,
+    zcolor : cfg.trackballzcolor,
+    fgcolor : cfg.trackballfgcolor,
+    bgcolor : cfg.trackballbgcolor,
+    bgskycolor : cfg.bgskycolor,
+    bgskyimg : cfg.bgskyimg
+    // bgtexturecolor : cfg.bgtexturecolor
+  }, appendchild(rootelem, getcanvaselem({
+    wh : windowwh
+  })));
 
   // add cube
   panelmesharr = cfg.panels.map(panelcfg => {
@@ -259,7 +276,7 @@ setup(function start (cfg) {
 
   canvasscene.glscene.add(
     readyaim.three.getscaleimgsprite(THREE, {
-      imgsrc : './img/square-crosshair-empty.png',
+      imgsrc : '/readyaim/img/square-crosshair-empty.png',
       color : 0xffffff,
       scale : [ 4, 4 ]
     }));
@@ -386,9 +403,6 @@ setup(function start (cfg) {
   wh : [ window.innerWidth, window.innerHeight ],
   bgtextcolor : 'rgb(250, 200, 30)',
   bgskycolor : 'rgb(30, 90, 120)',
-  // bgskyimg : './img/armenia.jpg',
-  // bgskyimg : './img/retrowave_neon_80_s_background___4k_by_rafael_de_jongh-dbk7ro6.jpg',
-  // bgskyimg : './img/wallhaven-477266.jpg',
   panels : [ {
     color : 'rgb(255, 255, 140)',
     position : { x : -300, y : -150, z : 100 },

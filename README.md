@@ -2,7 +2,7 @@ readyaim
 =========
 **(c)[Bumblehead][0]**, [MIT-license](#license)
 
-[![readyaim](https://github.com/iambumblehead/readyaim/raw/master/docs/img/readyaim.png)][10]
+[![readyaim](https://github.com/iambumblehead/readyaim/raw/main/docs/img/readyaim.png)][10]
 
 readyaim provides an aiming mechanism with THREE.js.
 
@@ -121,7 +121,7 @@ mesharr.map(mesh => (
 [1]: https://github.com/skezo/Reticulum "reticulum"
 [10]: https://iambumblehead.github.io/readyaim/
 
-![scrounge](https://github.com/iambumblehead/scroungejs/raw/master/img/hand.png)
+![scrounge](https://github.com/iambumblehead/scroungejs/raw/main/img/hand.png)
 
 (The MIT License)
 

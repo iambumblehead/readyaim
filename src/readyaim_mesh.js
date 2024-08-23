@@ -2,9 +2,9 @@
 // Timestamp: 2017.11.11-23:07:09 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-const castas = require('castas');
+import castas from 'castas'
 
-module.exports = (o => {
+export default (o => {
   o.getoptsfuse = (THREE, opts) => ({
     duration : castas.num(opts.duration, 1.5),
     color : new THREE.Color(opts.color || 0xffffff),

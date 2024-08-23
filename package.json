@@ -1,17 +1,18 @@
 {
   "name": "readyaim",
   "main": "docs/dist/readyaim",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "readmeFilename": "README.md",
   "license": "MIT",
+  "type": "module",
   "description": "readyaim provides an aiming mechanism using a THREE.js camera",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iambumblehead/readyaim.git"
+    "url": "git+https://github.com/iambumblehead/readyaim.git"
   },
   "scripts": {
     "start": "node build.js && node express.js",
-    "lint": "eslint 'src/*.js'"
+    "lint": "eslint ."
   },
   "pre-commit": {
     "silent": true,
@@ -20,22 +21,17 @@
     ]
   },
   "dependencies": {
-    "castas": "0.0.3",
-    "evdelegate": "^0.0.3",
-    "touchboom": "^0.2.50"
+    "castas": "1.2.1",
+    "evdelegate": "^0.0.4",
+    "touchboom": "^0.2.51"
   },
   "devDependencies": {
-    "three-text2d": "^0.3.4",
-    "three": "^0.102.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "scroungejs": "^1.4.7",
-    "array-flatten": "^2.1.1",
+    "esbuild": "^0.23.1",
+    "three-text2d": "^0.6.0",
+    "three": "^0.167.1",
+    "array-flatten": "^3.0.0",
     "express": "^4.16.2",
-    "eslint": "^4.7.2",
-    "eslint-config-airbnb-base": "^11.2.0",
-    "babel-eslint": "^7.2.3",
-    "pre-commit": "^1.2.2",
-    "eslint-plugin-import": "^2.7.0"
+    "eslint": "^9.9.0"
   },
   "keywords": [
     "crosshair",

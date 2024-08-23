@@ -2,7 +2,7 @@
 // Timestamp: 2017.11.11-23:06:23 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-module.exports = (o => {
+export default (o => {
   o.GAZEOVER = 'gazeover';
   o.GAZEOUT = 'gazeout';
   o.GAZELONG = 'gazelong';

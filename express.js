@@ -2,13 +2,14 @@
 // Timestamp: 2017.10.22-21:39:13 (last modified)
 // Author(s): bumblehead <chris@bumblehead.com>
 
-const express = require('express'),
-      http = require('http'),
-      port = 4343,
-      app = express();
+import express from 'express'
+import http from 'http'
 
-app.use('/readyaim/', express.static(__dirname + '/docs'));
+const port = 4343
+const app = express()
 
-http.createServer(app).listen(port);
+app.use('/readyaim/', express.static(import.meta.dirname + '/docs'))
 
-console.log(`[...] localhost:${port}/readyaim/`);
+http.createServer(app).listen(port)
+
+console.log(`[...] localhost:${port}/readyaim/`)
