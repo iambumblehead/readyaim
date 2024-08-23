@@ -12,6 +12,8 @@ import {
   Vector3 as THREEVector3
 } from 'three'
 
+const fusedisabled = true
+
 export default (o => {
   o.getringgeometry = (THREE, opt) =>
     new THREE.RingGeometry(
@@ -25,12 +27,14 @@ export default (o => {
   o.getringmesh = (THREE, opt) =>
     new THREE.Mesh(o.getringgeometry(THREE, opt), new THREE.MeshBasicMaterial({
       color : opt.color,
+      ...(fusedisabled ? { visible: false } : {}),
       side : THREE.BackSide,
       fog : false
     }));
 
   o.getfusemesh = (THREE, opt, mesh = o.getringmesh(THREE, opt)) => (
-    mesh.visible = opt.visible,
+    // mesh.visible = opt.visible,
+    (fusedisabled && (mesh.visible = false)),
     mesh.position.z = 0.0001, // at front of reticle
     mesh.rotation.y = 180 * (Math.PI / 180), // make clockwise
     mesh);
@@ -87,30 +91,31 @@ export default (o => {
         hypotenuse = Number(opts.innerRadius),
         radiusstep = (opts.outerRadius - hypotenuse) / opts.phiSegments;
 
-    const positionAttribute = ringgeometry.getAttribute('position');
-    const localVertex = new THREEVector3();
-    // const globalVertex = new THREE.Vector3();
+    if (!fusedisabled) {
+      const positionAttribute = ringgeometry.getAttribute('position');
+      const localVertex = new THREEVector3();
+      // const globalVertex = new THREE.Vector3();
 
-    for (let vertexIndex = 0; vertexIndex < positionAttribute.count; vertexIndex ++) {
+      for (let vertexIndex = 0; vertexIndex < positionAttribute.count; vertexIndex ++) {
     
-      // console.log(ringgeometry, { positionAttribute })
-	    localVertex.fromBufferAttribute(positionAttribute, vertexIndex);
+        // console.log(ringgeometry, { positionAttribute })
+	      localVertex.fromBufferAttribute(positionAttribute, vertexIndex);
 
-      // ringgeometry.vertices.map((vertex, i) => {
-      let segmenttheta = vertexIndex % (thetaSegments + 1),
-          segmentpercent = segmenttheta / thetaSegments;
+        // ringgeometry.vertices.map((vertex, i) => {
+        let segmenttheta = vertexIndex % (thetaSegments + 1)
+        let segmentpercent = segmenttheta / thetaSegments;
 
-      if (vertexIndex && segmenttheta === 0)
-        hypotenuse += radiusstep; // longer, each time around
+        if (vertexIndex && segmenttheta === 0)
+          hypotenuse += radiusstep; // longer, each time around
 
-      Object.assign(localVertex, o.getvertex(hypotenuse, (
-        thetaStart + thetaEnd * segmentpercent // segment angle
-      )));
-    // });
+        Object.assign(localVertex, o.getvertex(hypotenuse, (
+          thetaStart + thetaEnd * segmentpercent // segment angle
+        )));
+        // });
+      }
+
+      ringgeometry.verticesNeedUpdate = true;
     }
-
-    ringgeometry.verticesNeedUpdate = true;
-
     return ringgeometry;
   };
 
