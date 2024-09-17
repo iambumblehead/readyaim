@@ -9,7 +9,8 @@ import esbuild from 'esbuild'
 const esbuildOpts = {
   entryPoints: [
     './src/readyaim.js',
-    './src/readyaim_demo.js'
+    './src/readyaim_demo.js',
+    './src/readyaim_demo.css'
   ],
   loader: {
     '.avif': 'file',
