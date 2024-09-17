@@ -5,6 +5,7 @@
 
 html {
     box-sizing: border-box;
+    touch-action: none;
 }
 *, *:before, *:after {
     box-sizing: inherit;
